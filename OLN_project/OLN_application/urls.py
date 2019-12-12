@@ -1,7 +1,10 @@
-from django.conf.urls import url
+from django.urls import path
 from OLN_application import views
 
 urlpatterns = [
-    url(r'^register/$', views.register, name='register'),
-    url(r'^user_login/$', views.user_login, name='user_login'),
+    path('', views.index, name='index'),
+    path('register/', views.register, name='user_register'),
+    path('login/', views.user_login, name='user_login'),
+    path('logout/', views.user_logout, name='user_logout'),
+    path('user/<str:username>/', views.user_profile, name='user_profile'),
 ]

@@ -1,0 +1,22 @@
+{% extends "OLN_application/base.html" %}
+{% block body_block %}
+
+<div class="container">
+    <div class="jumbotron">
+        <table class="table">
+            <tr><td class="text-primary">username:</td><td>{{ requested_user.user.username }}</td></tr>
+            <tr><td class="text-primary">first_name:</td><td>{{ requested_user.user.first_name }}</td></tr>
+            <tr><td class="text-primary">last_name:</td><td>{{ requested_user.user.last_name }}</td></tr>
+            <tr><td class="text-primary">email:</td><td>{{ requested_user.user.email }}</td></tr>
+            <tr><td class="text-primary">groups:</td><td>{{ requested_user.user.groups }}</td></tr>
+            <tr><td class="text-primary">user_permissions:</td><td>{{ requested_user.user.user_permissions }}</td></tr>
+            <tr><td class="text-primary">is_staff:</td><td>{{ requested_user.user.is_staff }}</td></tr>
+            <tr><td class="text-primary">is_active:</td><td>{{ requested_user.user.is_active }}</td></tr>
+            <tr><td class="text-primary">is_superuser:</td><td>{{ requested_user.user.is_superuser }}</td></tr>
+            <tr><td class="text-primary">last_login:</td><td>{{ requested_user.user.last_login }}</td></tr>
+            <tr><td class="text-primary">date_joined:</td><td>{{ requested_user.user.date_joined }}</td></tr>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

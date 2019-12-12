@@ -20,9 +20,6 @@ from django.conf.urls import url, include
 from OLN_application import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^$', views.index, name='index'),
-    url(r'^special/', views.special, name='special'),
-    url(r'^OLN_application/', include('OLN_application.urls')),
-    url(r'^logout/$', views.user_logout, name='logout'),
+    path('wafd/', include('OLN_application.urls')),
+    path('admin/', admin.site.urls),
 ]

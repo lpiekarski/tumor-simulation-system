@@ -3,9 +3,11 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from OLN_application.forms import UserForm, UserProfileInfoForm
+from OLN_application.models import UserProfileInfo
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
+from django.db import models
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -13,11 +15,6 @@ from django.contrib.auth.decorators import login_required
 
 def index(request):
     return render(request, 'OLN_application/index.html')
-
-
-@login_required
-def special(request):
-    return HttpResponse("You are logged in")
 
 
 @login_required
@@ -66,4 +63,9 @@ def user_login(request):
             print("They used username: {} and password: {}".format(username, password))
             return HttpResponse("Invalid login details given")
     else:
-        return render(request, 'OLN_application/login.html', {})
+        return render(request, 'OLN_application/login.html')
+
+
+def user_profile(request, username):
+    requested_user = UserProfileInfo.objects.get(user__username=username)
+    return render(request, 'OLN_application/user.html', {'requested_user': requested_user})
