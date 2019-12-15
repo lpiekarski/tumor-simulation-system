@@ -1,6 +1,10 @@
 {% extends "OLN_application/base.html" %}
-{% block body_block %}
 
+{% block title_block %}
+{{ requested_user.user.username }} - Tumour Treatment Optimisation - Web App For Doctors
+{% endblock %}
+
+{% block body_block %}
 <div class="container">
     <div class="jumbotron">
         <table class="table">
@@ -18,5 +22,4 @@
         </table>
     </div>
 </div>
-
 {% endblock %}

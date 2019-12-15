@@ -16,10 +16,12 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
+from django.shortcuts import redirect
 from django.conf.urls import url, include
 from OLN_application import views
 
 urlpatterns = [
+    path('', lambda request: redirect('wafd/', permanent=False)),
     path('wafd/', include('OLN_application.urls')),
     path('admin/', admin.site.urls),
 ]

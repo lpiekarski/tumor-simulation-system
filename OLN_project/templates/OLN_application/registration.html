@@ -1,20 +1,60 @@
 {% extends "OLN_application/base.html" %}
 {% load static %}
+
+{% block title_block %}
+Sign up - Tumour Treatment Optimisation - Web App For Doctors
+{% endblock %}
+
 {% block body_block %}
-    <div class="container">
-        <div class="jumbotron">
-            {% if registered %}
-                <h3>Registered. Log in.</h3>
-            {% else %}
-                <form enctype="multipart/form-data" method="POST">
-                    {% csrf_token %}
-                    <table class="table">
-                        {{ user_form.as_table }}
-                        {{ profile_form.as_table }}
-                    </table>
-                    <input type="submit" name="" value="Register">
-                </form>
-            {% endif %}
+<div class="row">
+    {% if register_status == "registered" %}
+        <div class="col-5 mx-auto py-2">
+            <h3 class="text-center">Successfully registered.<br/><a href="{% url 'user_login' %}">Sign in</a></h3>
         </div>
-    </div>
+    {% else %}
+        <div class="card col-5 mx-auto py-2">
+            <form enctype="multipart/form-data" method="post" action="{% url 'user_register' %}">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label class="font-weight-bold" for="username">Username</label>
+                    <input class="form-control" type="text" name="username" value="{{ username }}" required>
+                    {% if register_status == "invalid_username" %}
+                        <div class="alert alert-danger py-0" role="alert">
+                            Invalid Username.
+                        </div>
+                    {% elif register_status == "username_taken" %}
+                        <div class="alert alert-danger py-0" role="alert">
+                            This Username is already taken.
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold" for="email">Email</label>
+                    <input class="form-control" type="text" name="email" value="{{ email }}" required>
+                    {% if register_status == "invalid_email" %}
+                        <div class="alert alert-danger py-0" role="alert">
+                            Invalid Email.
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold"  for="password">Password</label>
+                    <input class="form-control" type="password" name="password" value="{{ password }}" required>
+                    {% if register_status == "invalid_password" %}
+                        <div class="alert alert-danger py-0" role="alert">
+                            Password must be at least 8 characters long.
+                        </div>
+                    {% else %}
+                        <small id="passwordHelpBlock" class="form-text text-muted">
+                            Your password must be at least 8 characters long.
+                        </small>
+                    {% endif %}
+                </div>
+
+                <input class="btn btn-primary btn-block" type="submit" name="" value="Register">
+            </form>
+        </div>
+    {% endif %}
+</div>
 {% endblock %}

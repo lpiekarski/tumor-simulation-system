@@ -1,22 +1,45 @@
 {% extends 'OLN_application/base.html' %}
+
+{% block title_block %}
+Sign in - Tumour Treatment Optimisation - Web App For Doctors
+{% endblock %}
+
 {% block body_block %}
-<div class="container">
-    <div class="jumbotron">
-        <form method="post" action="{% url 'user_login' %}">
-            {% csrf_token %}
-            {# A more "HTML" way of creating the login form #}
-            <table class="table">
-                <tr>
-                    <td><label for="username">Username:</label></td>
-                    <td><input type="text" name="username" placeholder="Username"></td>
-                </tr>
-                <tr>
-                    <td><label for="password">Password:</label></td>
-                    <td><input type="password" name="password" placeholder="Password"></td>
-                </tr>
-            </table>
-            <input type="submit" name="" value="Login">
-        </form>
+{% if login_status == "account inactive" %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        This account is not active.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% elif login_status == "invalid details" %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        Invalid Username or Password.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endif %}
+<div class="row">
+    <div class="container col-8">
+        <h1>Tumour Treatment Optimisation - Web App For Doctors</h1>
+        {% lorem %}
+    </div>
+    <div class="card col" style="width: 18rem;">
+        <div class="card-body">
+            <form method="post" action="{% url 'user_login' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="font-weight-bold"  for="username">Username</label>
+                    <input class="form-control" type="text" name="username" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold"  for="password">Password</label>
+                    <input class="form-control" type="password" name="password" placeholder="Password">
+                </div>
+                <input class="btn btn-primary" type="submit" name="" value="Login">
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}

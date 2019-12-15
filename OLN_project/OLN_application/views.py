@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.contrib.auth.models import User
 from django.shortcuts import render
-from OLN_application.forms import UserForm, UserProfileInfoForm
 from OLN_application.models import UserProfileInfo
+import OLN_application.validators as validators
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
@@ -23,31 +24,40 @@ def user_logout(request):
     return HttpResponseRedirect(reverse('index'))
 
 
-def register(request):
-    registered = False
+def user_register(request):
+    context = {}
     if request.method == 'POST':
-        user_form = UserForm(data=request.POST)
-        profile_form = UserProfileInfoForm(data=request.POST)
-        if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
-            user.set_password(user.password)
+        context['username'] = request.POST.get('username')
+        context['email'] = request.POST.get('email')
+        context['password'] = request.POST.get('password')
+
+        if User.objects.filter(username=context['username']).count() != 0:
+            context['register_status'] = 'username_taken'
+        elif not validators.is_valid_username(context['username']):
+            context['register_status'] = 'invalid_username'
+        elif not validators.is_valid_email(context['email']):
+            context['register_status'] = 'invalid_email'
+        elif not validators.is_valid_password(context['password']):
+            context['register_status'] = 'invalid_password'
+        else:
+            user = User()
+            user.username = context['username']
+            user.email = context['email']
+            user.set_password(context['password'])
             user.save()
-            profile = profile_form.save(commit=False)
+
+            profile = UserProfileInfo()
             profile.user = user
             profile.save()
-            registered = True
-        else:
-            print(user_form.errors, profile_form.errors)
+            context['register_status'] = 'registered'
     else:
-        user_form = UserForm()
-        profile_form = UserProfileInfoForm()
-    return render(request, 'OLN_application/registration.html', {
-        'user_form': user_form,
-        'profile_form': profile_form,
-        'registered': registered})
+        context['register_status'] = 'registering'
+    print(context)
+    return render(request, 'OLN_application/registration.html', context)
 
 
 def user_login(request):
+    context = {}
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -57,13 +67,12 @@ def user_login(request):
                 login(request, user)
                 return HttpResponseRedirect(reverse('index'))
             else:
-                return HttpResponse("Your account was inactive.")
+                context['login_status'] = 'account inactive'
         else:
-            print("Someone tried to login and failed.")
-            print("They used username: {} and password: {}".format(username, password))
-            return HttpResponse("Invalid login details given")
+            context['login_status'] = 'invalid details'
     else:
-        return render(request, 'OLN_application/login.html')
+        context['login_status'] = 'logging in'
+    return render(request, 'OLN_application/login.html', context)
 
 
 def user_profile(request, username):
