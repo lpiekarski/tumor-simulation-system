@@ -1,26 +1,35 @@
 {% extends "OLN_application/base.html" %}
-
+{% load static %}
+{% load humanize %}
 {% block title_block %}
 {{ requested_user.user.username }} - Tumour Treatment Optimisation - Web App For Doctors
 {% endblock %}
 
 {% block body_block %}
-<div class="container">
-    <div class="jumbotron">
-        <table class="table">
-            <tr><td class="text-primary">avatar:</td><td><img src="{{ requested_user.avatar.url }}"></td></tr>
-            <tr><td class="text-primary">username:</td><td>{{ requested_user.user.username }}</td></tr>
-            <tr><td class="text-primary">first_name:</td><td>{{ requested_user.user.first_name }}</td></tr>
-            <tr><td class="text-primary">last_name:</td><td>{{ requested_user.user.last_name }}</td></tr>
-            <tr><td class="text-primary">email:</td><td>{{ requested_user.user.email }}</td></tr>
-            <tr><td class="text-primary">groups:</td><td>{{ requested_user.user.groups }}</td></tr>
-            <tr><td class="text-primary">user_permissions:</td><td>{{ requested_user.user.user_permissions }}</td></tr>
-            <tr><td class="text-primary">is_staff:</td><td>{{ requested_user.user.is_staff }}</td></tr>
-            <tr><td class="text-primary">is_active:</td><td>{{ requested_user.user.is_active }}</td></tr>
-            <tr><td class="text-primary">is_superuser:</td><td>{{ requested_user.user.is_superuser }}</td></tr>
-            <tr><td class="text-primary">last_login:</td><td>{{ requested_user.user.last_login }}</td></tr>
-            <tr><td class="text-primary">date_joined:</td><td>{{ requested_user.user.date_joined }}</td></tr>
-        </table>
+<div class="row">
+    <div class="card col-3">
+        <img class="card-img-top mt-2" src="{{ requested_user.avatar.url }}" style="width:16rem; height=16rem">
+        <div class="dropdown-divider mb-0"></div>
+        <div class="card-body pt-1 pl-1">
+            <div>
+                {% if requested_user.user.first_name != "" or requested_user.user.last_name != "" %}
+                    <strong>{{requested_user.user.first_name}} {{requested_user.user.last_name}}</strong><br/>
+                    <small class="text-muted">{{requested_user.user.username}}</small>
+                {% else %}
+                    <strong>@{{requested_user.user.username}}</strong>
+                {% endif %}
+            </div>
+            <div>
+                {% if requested_user.user.email != "" %}
+                    <small><a href="mailto:{{requested_user.user.email}}"><img class="mr-1" src="{% static 'icons/envelope.svg' %}" width="16" height="16">{{requested_user.user.email}}</a></small>
+                {% endif %}
+            </div>
+            <div>
+                <img class="mr-1" src="{% static 'icons/calendar.svg' %}" width="16" height="16"><small class="text-muted">joined {{requested_user.user.date_joined|naturaltime}}</small>
+            </div>
+        </div>
+    </div>
+    <div class="col">
     </div>
 </div>
 {% endblock %}

@@ -31,11 +31,13 @@
                     {% if user.is_authenticated %}
                         <li class="nav-item dropdown">
                             <a class="nav-link btn btn-sm dropdown-toggle bg-dark py-0 px-1 mx-1" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img style="px-0" src="{% static 'icons/grid.svg' %}" alt="" width="32" height="32">
+                                <img style="px-0" src="{{ user.user_profile.avatar.url }}" alt="{% static 'icons/grid.svg' %}" width="32" height="32">
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{% url 'user_profile' user.username %}">
-                                    <strong>{{user.first_name}} {{user.last_name}}</strong> <br/>
+                                    {% if user.first_name != "" or user.last_name != "" %}
+                                        <strong>{{user.first_name}} {{user.last_name}}</strong> <br/>
+                                    {% endif %}
                                     @{{ user.username }}
                                 </a>
                                 <div class="dropdown-divider"></div>

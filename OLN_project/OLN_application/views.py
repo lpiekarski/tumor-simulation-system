@@ -7,7 +7,7 @@ from OLN_application.models import UserProfileInfo
 import OLN_application.validators as validators
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.urls import reverse
 from django.db import models
 from django.contrib.auth.decorators import login_required
@@ -94,5 +94,8 @@ def user_login(request):
 
 
 def user_profile(request, username):
-    requested_user = UserProfileInfo.objects.get(user__username=username)
+    try:
+        requested_user = UserProfileInfo.objects.get(user__username=username)
+    except UserProfileInfo.DoesNotExist:
+        raise Http404("User does not exist")
     return render(request, 'OLN_application/user.html', {'requested_user': requested_user})
