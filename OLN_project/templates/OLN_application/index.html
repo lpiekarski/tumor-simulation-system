@@ -1,4 +1,36 @@
 {% extends "OLN_application/base.html" %}
 {% block body_block %}
-
+<div id="carouselIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        {% for carousel_item in carousel_items %}
+            {% if forloop.first %}
+                <li data-target="#carouselIndicators" data-slide-to="{{forloop.couter0}}" class="active"></li>
+            {% else %}
+                <li data-target="#carouselIndicators" data-slide-to="{{forloop.counter0}}"></li>
+            {% endif %}
+        {% endfor %}
+    </ol>
+    <div class="carousel-inner">
+        {% for carousel_item in carousel_items %}
+            {% if forloop.first %}
+                <div class="carousel-item active">
+            {% else %}
+                <div class="carousel-item">
+            {% endif %}
+                    <img class="d-block w-100" src="{{carousel_item.image.url}}">
+                    <div class="carousel-caption d-none d-md-block">
+                        {{carousel_item.content|safe}}
+                    </div>
+                </div>
+        {% endfor %}
+    </div>
+    <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
 {% endblock %}
