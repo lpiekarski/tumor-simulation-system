@@ -35,3 +35,18 @@ class Article(models.Model):
 
     def __str__(self):
         return "Article[" + self.title.__str__() + ", " + self.author.__str__() + "]"
+
+
+def carousel_image_directory_path(instance, filename):
+    sha_signature = hashlib.sha256(instance.__str__().encode()).hexdigest()
+    return 'image/{0}/{1}/carousel_item_{2}'.format(sha_signature[:2], sha_signature[2:], filename)
+
+
+class CarouselItem(models.Model):
+    image = models.ImageField(upload_to=carousel_image_directory_path, blank=True, null=True)
+    content = models.TextField()
+    author = models.ForeignKey(UserProfileInfo, on_delete=models.CASCADE)
+    is_public = models.BooleanField()
+
+    def __str__(self):
+        return "CarouselItem[" + self.image.__str__() + ", " + self.content.__str__() + "]"

@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
 from django.shortcuts import render
-from OLN_application.models import UserProfileInfo
+from OLN_application.models import UserProfileInfo, CarouselItem
 import OLN_application.validators as validators
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
@@ -20,7 +20,8 @@ import hashlib
 
 
 def index(request):
-    return render(request, 'OLN_application/index.html')
+    context = {'carousel_items': CarouselItem.objects.all().filter(is_public=True)}
+    return render(request, 'OLN_application/index.html', context)
 
 
 @login_required
