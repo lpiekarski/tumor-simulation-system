@@ -5,11 +5,16 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from OLN_application.models import UserProfileInfo
 import OLN_application.validators as validators
+from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.db import models
 from django.contrib.auth.decorators import login_required
+import urllib.request
+import os
+import hashlib
+
 
 # Create your views here.
 
@@ -46,13 +51,26 @@ def user_register(request):
             user.set_password(context['password'])
             user.save()
 
+            user_sha_signature = hashlib.sha256(user.username.encode()).hexdigest()
+            user_media = 'upload/{0}/{1}'.format(user_sha_signature[:2], user_sha_signature[2:])
+            media_root_user_media = os.path.join(settings.MEDIA_ROOT, user_media)
+            if not os.path.exists(media_root_user_media):
+                os.makedirs(media_root_user_media)
+            user_avatar_path = os.path.join(user_media, 'avatar.svg')
+            media_root_user_avatar_path = os.path.join(settings.MEDIA_ROOT, user_avatar_path)
+            avatar_generator_url = \
+                'https://www.tinygraphs.com/labs/isogrids/hexa/{0}?theme=berrypie&numcolors=4&size=220&fmt=svg' \
+                .format(user.username)
+
+            urllib.request.urlretrieve(avatar_generator_url, media_root_user_avatar_path)
+
             profile = UserProfileInfo()
             profile.user = user
+            profile.avatar = user_avatar_path
             profile.save()
             context['register_status'] = 'registered'
     else:
         context['register_status'] = 'registering'
-    print(context)
     return render(request, 'OLN_application/registration.html', context)
 
 

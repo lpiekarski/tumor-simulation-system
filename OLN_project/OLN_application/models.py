@@ -3,12 +3,21 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
+import hashlib
+import os
 
 # Create your models here.
 
 
+def avatar_directory_path(instance, filename):
+    sha_signature = hashlib.sha256(instance.user.username.encode()).hexdigest()
+    _, ext = os.path.splitext(filename)
+    return 'upload/{0}/{1}/avatar{2}'.format(sha_signature[:2], sha_signature[2:], ext)
+
+
 class UserProfileInfo(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    avatar = models.ImageField(upload_to=avatar_directory_path, blank=True, null=True)
 
     def __str__(self):
         return self.user.username

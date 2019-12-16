@@ -8,6 +8,7 @@
 <div class="container">
     <div class="jumbotron">
         <table class="table">
+            <tr><td class="text-primary">avatar:</td><td><img src="{{ requested_user.avatar.url }}"></td></tr>
             <tr><td class="text-primary">username:</td><td>{{ requested_user.user.username }}</td></tr>
             <tr><td class="text-primary">first_name:</td><td>{{ requested_user.user.first_name }}</td></tr>
             <tr><td class="text-primary">last_name:</td><td>{{ requested_user.user.last_name }}</td></tr>
