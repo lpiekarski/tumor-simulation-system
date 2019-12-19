@@ -1,19 +1,17 @@
-{% extends "OLN_application/base.html" %}
+{% extends "base.html" %}
 {% load static %}
 
-{% block title_block %}
-Sign up - Tumour Treatment Optimisation - Web App For Doctors
-{% endblock %}
+{% block head_title %}Sign up{% endblock %}
 
 {% block body_block %}
 <div class="row">
     {% if register_status == "registered" %}
         <div class="col-5 mx-auto py-2">
-            <h3 class="text-center">Successfully registered.<br/><a href="{% url 'user_login' %}">Sign in</a></h3>
+            <h3 class="text-center">Successfully registered.<br/><a href="{% url 'login' %}">Sign in</a></h3>
         </div>
     {% else %}
         <div class="card col-5 mx-auto py-2">
-            <form enctype="multipart/form-data" method="post" action="{% url 'user_register' %}">
+            <form enctype="multipart/form-data" method="post" action="{% url 'register' %}">
                 {% csrf_token %}
 
                 <div class="form-group">

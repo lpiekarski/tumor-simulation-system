@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% block head_title %}{{ profile.user.username }}{% endblock %}
+
+{% block body_block %}
+<div class="row">
+    <div class="card col-3">
+        <img class="card-img-top img-responsive mt-2" src="{{ profile.avatar.url }}">
+        <div class="dropdown-divider mb-0"></div>
+        <div class="card-body pt-1 pl-1">
+            <div>
+                {% if profile.user.first_name != "" or profile.user.last_name != "" %}
+                    <strong>{{profile.user.first_name}} {{profile.user.last_name}}</strong><br/>
+                    <small class="text-muted">{{profile.user.username}}</small>
+                {% else %}
+                    <strong>@{{profile.user.username}}</strong>
+                {% endif %}
+            </div>
+            <div>
+                {% if profile.user.email != "" %}
+                    <small><a href="mailto:{{profile.user.email}}"><img class="mr-1" src="{% static 'icons/envelope.svg' %}" width="16" height="16">{{profile.user.email}}</a></small>
+                {% endif %}
+            </div>
+            <div>
+                <img class="mr-1" src="{% static 'icons/calendar.svg' %}" width="16" height="16"><small class="text-muted">joined {{profile.user.date_joined|naturaltime}}</small>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+    </div>
+</div>
+{% endblock %}
