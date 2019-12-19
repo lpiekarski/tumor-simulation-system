@@ -1,8 +1,6 @@
-{% extends 'OLN_application/base.html' %}
+{% extends 'base.html' %}
 
-{% block title_block %}
-Sign in - Tumour Treatment Optimisation - Web App For Doctors
-{% endblock %}
+{% block head_title %}Sign in{% endblock %}
 
 {% block body_block %}
 {% if login_status == "account inactive" %}
@@ -22,12 +20,12 @@ Sign in - Tumour Treatment Optimisation - Web App For Doctors
 {% endif %}
 <div class="row">
     <div class="container col-8">
-        <h1>Tumour Treatment Optimisation - Web App For Doctors</h1>
+        <h1>{{ SITE_TITLE }}</h1>
         {% lorem %}
     </div>
     <div class="card col" style="width: 18rem;">
         <div class="card-body">
-            <form method="post" action="{% url 'user_login' %}">
+            <form method="post" action="{% url 'login' %}">
                 {% csrf_token %}
                 <div class="form-group">
                     <label class="font-weight-bold"  for="username">Username</label>
