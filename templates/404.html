@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block head_title %} Not Found {% endblock %}
+
+{% block body_block %}
+<div class="row">
+    <div class="col-12">
+        <h2>Not Found</h2>
+        <p>We couldn't find the page you requested.</p>
+    </div>
+</div>
+{% endblock %}
