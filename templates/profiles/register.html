@@ -5,12 +5,12 @@
 
 {% block body_block %}
 <div class="row">
-    {% if register_status == "registered" %}
-        <div class="col-5 mx-auto py-2">
-            <h3 class="text-center">Successfully registered.<br/><a href="{% url 'login' %}">Sign in</a></h3>
-        </div>
-    {% else %}
-        <div class="card col-5 mx-auto py-2">
+    <div class="card col-5 mx-auto py-2">
+        {% if register_status == "registered" %}
+            <div>
+                <h5 class="text-center">Successfully registered.<br/><a href="{% url 'login' %}">Sign in</a></h5>
+            </div>
+        {% else %}
             <form enctype="multipart/form-data" method="post" action="{% url 'register' %}">
                 {% csrf_token %}
 
@@ -52,7 +52,7 @@
 
                 <input class="btn btn-primary btn-block" type="submit" name="" value="Register">
             </form>
-        </div>
-    {% endif %}
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
