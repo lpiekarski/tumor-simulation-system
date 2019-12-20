@@ -8,9 +8,11 @@
         <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
         <title>{% block head_title_base %}{% block head_title %}{% endblock %} - {{ SITE_TITLE }}{% endblock %}</title>
     </head>
-    <body style="padding-top: 70px">
-        <nav class="navbar navbar-expand-sm fixed-top navbar-dark bg-dark py-1 my-0">
-            <a class="navbar-brand" href="{% url 'home' %}">Tumour Treatment Optimisation - Web App For Doctors</a>
+    <body class="bg-light small" style="padding-top: 70px">
+        <nav class="navbar navbar-expand-sm fixed-top bg-dark navbar-dark py-1 my-0">
+            <a class="navbar-brand text-secondary" href="{% url 'home' %}">
+                {{ SITE_TITLE }}
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -22,27 +24,31 @@
                 </ul>
                 <ul class="navbar-nav my-0">
                     {% if user.is_staff %}
-                        <li><a class="nav-link btn btn-sm bg-dark py-0 px-1 mx-1" href="{% url 'admin:index' %}"><img src="{% static 'icons/tools.svg' %}" alt="" width="32" height="32"></a></li>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-sm bg-dark py-0 px-1 mx-1" href="{% url 'admin:index' %}">
+                                <img class="bi bi-tools" src="{% static 'icons/tools.svg' %}" fill="#fff" alt="" width="20" height="20">
+                            </a>
+                        </li>
                     {% endif %}
                     {% if user.is_authenticated %}
                         <li class="nav-item dropdown">
-                            <a class="nav-link btn btn-sm dropdown-toggle bg-dark py-0 px-1 mx-1" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img style="px-0" src="{{ user.user_profile.avatar.url }}" alt="" width="32" height="32">
+                            <a class="nav-link btn btn-sm bg-dark dropdown-toggle py-0 px-1 mx-1" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img style="margin-right:-6px" src="{{ user.user_profile.avatar.url }}" alt="" width="20" height="20">
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{% url 'profile_detail' user.username %}">
+                                <a class="dropdown-item small" href="{% url 'profile_detail' user.username %}">
                                     {% if user.first_name != "" or user.last_name != "" %}
                                         <strong>{{user.first_name}} {{user.last_name}}</strong> <br/>
                                     {% endif %}
                                     @{{ user.username }}
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{% url 'logout' %}">Sign out</a>
+                                <a class="dropdown-item small" href="{% url 'logout' %}">Sign out</a>
                             </div>
                         </li>
                     {% else %}
-                        <li><a class="nav-link btn bg-dark py-0 px-1 my-0 mx-1" href="{% url 'login' %}">Sign in</a></li>
-                        <li><a class="nav-link btn bg-dark py-0 px-1 my-0 mx-1" href="{% url 'register' %}">Sign up</a></li>
+                        <li><a class="nav-link btn-sm bg-dark small py-0 px-1 my-0 mx-1" href="{% url 'login' %}">Sign in</a></li>
+                        <li><a class="nav-link btn-sm bg-dark small py-0 px-1 my-0 mx-1" href="{% url 'register' %}">Sign up</a></li>
                     {% endif %}
                 </ul>
             </div>
