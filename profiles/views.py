@@ -27,6 +27,7 @@ def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('home'))
 
+
 def register(request, template_name="profiles/register.html"):
     context = {}
     if request.method == 'POST':
@@ -45,7 +46,6 @@ def register(request, template_name="profiles/register.html"):
         else:
             user = User()
             user.username = context['username']
-            user.email = context['email']
             user.set_password(context['password'])
             user.save()
 
@@ -63,6 +63,7 @@ def register(request, template_name="profiles/register.html"):
 
             profile = Profile()
             profile.user = user
+            profile.email = context['email']
             profile.avatar = avatar_media_path
             profile.save()
             context['register_status'] = 'registered'

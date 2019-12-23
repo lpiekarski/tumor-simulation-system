@@ -10,16 +10,16 @@
         <div class="dropdown-divider mb-0"></div>
         <div class="card-body pt-1 pl-1">
             <div>
-                {% if profile.user.first_name != "" or profile.user.last_name != "" %}
-                    <strong>{{profile.user.first_name}} {{profile.user.last_name}}</strong><br/>
-                    <small class="text-muted">{{profile.user.username}}</small>
+                {% if profile.first_name != "" or profile.last_name != "" %}
+                    <strong>{{profile.first_name}} {{profile.last_name}}</strong><br/>
+                    <small class="text-muted">{{profile.username}}</small>
                 {% else %}
-                    <strong>@{{profile.user.username}}</strong>
+                    <strong>@{{profile.username}}</strong>
                 {% endif %}
             </div>
             <div>
-                {% if profile.user.email != "" %}
-                    <small><a href="mailto:{{profile.user.email}}"><img class="mr-1" src="{% static 'icons/envelope.svg' %}" width="16" height="16">{{profile.user.email}}</a></small>
+                {% if profile.email != "" %}
+                    <small><a href="mailto:{{profile.email}}"><img class="mr-1" src="{% static 'icons/envelope.svg' %}" width="16" height="16">{{profile.email}}</a></small>
                 {% endif %}
             </div>
             <div>
