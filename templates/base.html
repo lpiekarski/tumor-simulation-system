@@ -43,6 +43,8 @@
                                     @{{ user.username }}
                                 </a>
                                 <div class="dropdown-divider"></div>
+                                <a class="dropdown-item small" href="{% url 'profile_edit' %}">Edit profile</a>
+                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item small" href="{% url 'logout' %}">Sign out</a>
                             </div>
                         </li>

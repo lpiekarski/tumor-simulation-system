@@ -15,6 +15,14 @@ from profiles.models import Profile
 from core.utils import is_valid_username, is_valid_email, is_valid_password, media_file_path, render_with_context
 
 
+def profile_edit(request, template_name="profiles/edit.html"):
+    context = {}
+    if request.method == 'POST':
+        pass
+    else:
+        return render_with_context(request, template_name, context)
+
+
 def profile_detail(request, username, template_name="profiles/profile.html"):
     try:
         profile = get_object_or_404(Profile, user__username=username)
