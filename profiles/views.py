@@ -67,6 +67,9 @@ def register(request, template_name="profiles/register.html"):
             profile.avatar = avatar_media_path
             profile.save()
             context['register_status'] = 'registered'
+            
+            login(request, user)
+            return HttpResponseRedirect(reverse('home'))
     else:
         context['register_status'] = 'registering'
     return render_with_context(request, template_name, context)
