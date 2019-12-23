@@ -4,7 +4,11 @@ from homepage.models import Carousel
 
 
 def homepage(request, template_name="homepage.html"):
-    context = {'carousel_items': Carousel.objects.all().filter(is_public=True)}
+    query = Carousel.objects.all()\
+        .filter(groups__pk__in=request.user.groups.values_list('pk', flat=True))\
+        .filter(is_public=True)\
+        .distinct()
+    context = {'carousel_items': query}
     return render(request, template_name, context)
 
 
