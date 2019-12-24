@@ -13,7 +13,15 @@
         {% else %}
             <form enctype="multipart/form-data" method="post" action="{% url 'register' %}">
                 {% csrf_token %}
-
+                <div class="form-group">
+                    <label class="font-weight-bold" for="full_name">Full Name</label>
+                    <input class="form-control" type="text" name="full_name" value="{{ full_name }}" required>
+                    {% if register_status == "invalid_full_name" %}
+                        <div class="alert alert-danger py-0" role="alert">
+                            Invalid Full Name.
+                        </div>
+                    {% endif %}
+                </div>
                 <div class="form-group">
                     <label class="font-weight-bold" for="username">Username</label>
                     <input class="form-control" type="text" name="username" value="{{ username }}" required>
@@ -41,7 +49,7 @@
                     {% endif %}
                 </div>
                 <div class="form-group">
-                    <label class="font-weight-bold"  for="password">Password</label>
+                    <label class="font-weight-bold" for="password">Password</label>
                     <input class="form-control" type="password" name="password" value="{{ password }}" required>
                     {% if register_status == "invalid_password" %}
                         <div class="alert alert-danger py-0" role="alert">

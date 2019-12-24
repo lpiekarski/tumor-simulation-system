@@ -12,7 +12,13 @@ import hashlib
 
 from profiles.models import Profile
 
-from core.utils import is_valid_username, is_valid_email, is_valid_password, media_file_path, render_with_context
+from core.utils import \
+    is_valid_full_name,\
+    is_valid_username, \
+    is_valid_email, \
+    is_valid_password, \
+    media_file_path, \
+    render_with_context
 
 
 def profile_detail(request, username, template_name="profiles/profile.html"):
@@ -31,6 +37,7 @@ def user_logout(request):
 def register(request, template_name="profiles/register.html"):
     context = {}
     if request.method == 'POST':
+        context['full_name'] = request.POST.get('full_name')
         context['username'] = request.POST.get('username')
         context['email'] = request.POST.get('email')
         context['password'] = request.POST.get('password')
@@ -39,6 +46,8 @@ def register(request, template_name="profiles/register.html"):
             context['register_status'] = 'username_taken'
         elif User.objects.filter(email=context['email']).count() != 0:
             context['register_status'] = 'email_taken'
+        elif not is_valid_full_name(context['full_name']):
+            context['register_status'] = 'invalid_full_name'
         elif not is_valid_username(context['username']):
             context['register_status'] = 'invalid_username'
         elif not is_valid_email(context['email']):
@@ -64,6 +73,7 @@ def register(request, template_name="profiles/register.html"):
             urllib.request.urlretrieve(avatar_generator_url, avatar_system_path)
 
             profile = Profile()
+            profile.full_name = context['full_name']
             profile.user = user
             profile.email = context['email']
             profile.avatar = avatar_media_path

@@ -28,6 +28,10 @@ def is_valid_password(password):
     return len(password) >= 8
 
 
+def is_valid_full_name(full_name):
+    return 0 < len(full_name) <= 255
+
+
 def render_with_context(request, template_name, context=None, content_type=None, status=None, using=None):
     global_context = RequestContext(request)
     global_context.update(context)
