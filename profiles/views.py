@@ -37,6 +37,8 @@ def register(request, template_name="profiles/register.html"):
 
         if User.objects.filter(username=context['username']).count() != 0:
             context['register_status'] = 'username_taken'
+        elif User.objects.filter(email=context['email']).count() != 0:
+            context['register_status'] = 'email_taken'
         elif not is_valid_username(context['username']):
             context['register_status'] = 'invalid_username'
         elif not is_valid_email(context['email']):
@@ -78,7 +80,15 @@ def register(request, template_name="profiles/register.html"):
 def user_login(request, template_name="profiles/login.html"):
     context = {}
     if request.method == 'POST':
-        username = request.POST.get('username')
+        username = None
+        username_or_email = request.POST.get('username_or_email')
+        if "@" in username_or_email:
+            try:
+                username = User.objects.all().get(email=username_or_email)
+            except MultipleObjectsReturned:
+                username = User.objects.filter(email=username_or_email).latest('pk')
+        else:
+            username = username_or_email
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
         if user:

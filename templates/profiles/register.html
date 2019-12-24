@@ -34,6 +34,10 @@
                         <div class="alert alert-danger py-0" role="alert">
                             Invalid Email.
                         </div>
+                    {% elif register_status == "email_taken" %}
+                        <div class="alert alert-danger py-0" role="alert">
+                            There is already an account assigned to this Email.
+                        </div>
                     {% endif %}
                 </div>
                 <div class="form-group">
