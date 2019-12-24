@@ -4,8 +4,8 @@
 {% block head_title %}Sign up{% endblock %}
 
 {% block body_block %}
-<div class="row">
-    <div class="card col-5 mx-auto py-2">
+<div class="row py-5">
+    <div class="card col-4 mx-auto py-2">
         {% if register_status == "registered" %}
             <div>
                 <h5 class="text-center">Successfully registered.<br/><a href="{% url 'login' %}">Sign in</a></h5>
@@ -61,10 +61,32 @@
                         </small>
                     {% endif %}
                 </div>
-
+                <div class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" name="accept_terms" id="accept_terms" {% if accept_terms %}checked{% endif %}>
+                        <label class="form-check-label" for="accept_terms">I accept the <a href="{% url 'terms' %}">Terms of Service and Privacy Policy</a></label>
+                    </div>
+                    {% if register_status == "invalid_terms" %}
+                        <div class="alert alert-danger py-0" role="alert">
+                            Please check this box if you want to proceed.
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <script src='https://www.google.com/recaptcha/api.js'></script>
+                    <div class="g-recaptcha" data-sitekey="6LcGu8kUAAAAAKV_hFUTiHkQlBc6loQCBaDP4SoL"></div>
+                    {% if register_status == "invalid_recaptcha" %}
+                        <div class="alert alert-danger py-0" role="alert">
+                            Please solve the reCAPTCHA again.
+                        </div>
+                    {% endif %}
+                </div>
                 <input class="btn btn-primary btn-block" type="submit" name="" value="Register">
             </form>
         {% endif %}
+    <small class="form-text text-muted mx-auto">
+        Already have login and password? <a href="{% url 'login' %}">Sign in</a>
+    </small>
     </div>
 </div>
 {% endblock %}
