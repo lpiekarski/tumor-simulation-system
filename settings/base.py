@@ -135,3 +135,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+
+
+GOOGLE_RECAPTCHA_SECRET_KEY = 'CHANGEME'

@@ -12,6 +12,7 @@ import hashlib
 
 from profiles.models import Profile
 
+from core.decorators import check_recaptcha
 from core.utils import \
     is_valid_full_name,\
     is_valid_username, \
@@ -34,6 +35,7 @@ def user_logout(request):
     return HttpResponseRedirect(reverse('home'))
 
 
+@check_recaptcha
 def register(request, template_name="profiles/register.html"):
     context = {}
     if request.method == 'POST':
@@ -41,8 +43,13 @@ def register(request, template_name="profiles/register.html"):
         context['username'] = request.POST.get('username')
         context['email'] = request.POST.get('email')
         context['password'] = request.POST.get('password')
+        context['accept_terms'] = (request.POST.get('accept_terms') == 'on')
 
-        if User.objects.filter(username=context['username']).count() != 0:
+        if not context['accept_terms']:
+            context['register_status'] = 'invalid_terms'
+        elif not request.recaptcha_is_valid:
+            context['register_status'] = 'invalid_recaptcha'
+        elif User.objects.filter(username=context['username']).count() != 0:
             context['register_status'] = 'username_taken'
         elif User.objects.filter(email=context['email']).count() != 0:
             context['register_status'] = 'email_taken'
