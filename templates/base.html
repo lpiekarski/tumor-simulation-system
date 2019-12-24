@@ -21,6 +21,14 @@
                 <ul class="navbar-nav mr-auto">
                     {% block navbar_left_block %}
                     {% endblock %}
+                    <form class="form-inline">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">@</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                    </form>
                 </ul>
                 <ul class="navbar-nav my-0">
                     {% if user.is_staff %}
