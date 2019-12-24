@@ -10,8 +10,8 @@
         <div class="dropdown-divider mb-0"></div>
         <div class="card-body pt-1 pl-1">
             <div>
-                {% if profile.first_name != "" or profile.last_name != "" %}
-                    <strong>{{profile.first_name}} {{profile.last_name}}</strong><br/>
+                {% if profile.full_name and profile.full_name != "" %}
+                    <strong>{{profile.full_name}}</strong><br/>
                     <small class="text-muted">{{profile.username}}</small>
                 {% else %}
                     <strong>@{{profile.username}}</strong>
