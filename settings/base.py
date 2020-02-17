@@ -137,4 +137,8 @@ REST_FRAMEWORK = {
 }
 
 
-GOOGLE_RECAPTCHA_SECRET_KEY = 'CHANGEME'
+try:
+    from settings_local import *
+except ImportError as e:
+    print("Nie podano pliku konfiguracji lokalnych")
+    pass

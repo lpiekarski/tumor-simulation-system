@@ -37,7 +37,9 @@ def user_logout(request):
 
 @check_recaptcha
 def register(request, template_name="profiles/register.html"):
-    context = {}
+    context = {
+        'recaptcha_key': settings.GOOGLE_RECAPTCHA_PUBLIC_KEY,
+    }
     if request.method == 'POST':
         context['full_name'] = request.POST.get('full_name')
         context['username'] = request.POST.get('username')
