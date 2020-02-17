@@ -136,6 +136,8 @@ REST_FRAMEWORK = {
     ]
 }
 
+DEFAULT_CAROUSEL_IMAGE = '/static/images/default_carousel_background.jpg'
+
 
 try:
     from settings_local import *
