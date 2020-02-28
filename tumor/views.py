@@ -1,3 +1,6 @@
 from django.shortcuts import render
+from tumor.models import InitialTumor, Protocol
 
-# Create your views here.
+
+def simulation_view(request):
+    return render(request, 'tumor/simulation.html', {})
