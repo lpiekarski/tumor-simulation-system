@@ -74,7 +74,7 @@
                 </div>
                 <div class="form-group">
                     <script src='https://www.google.com/recaptcha/api.js'></script>
-                    <div class="g-recaptcha" data-sitekey="6LcGu8kUAAAAAKV_hFUTiHkQlBc6loQCBaDP4SoL"></div>
+                    <div class="g-recaptcha" data-sitekey="{{ recaptcha_key }}"></div>
                     {% if register_status == "invalid_recaptcha" %}
                         <div class="alert alert-danger py-0" role="alert">
                             Please solve the reCAPTCHA again.

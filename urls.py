@@ -6,6 +6,7 @@ from django.conf import settings
 from django.views.generic.base import TemplateView, RedirectView
 from homepage.views import homepage, error_404_view, error_500_view, health_check_view
 from profiles.views import user_login, user_logout, register
+from tumor.views import simulation_view
 
 urlpatterns = [
     url(r"^$", homepage, name="home"),
@@ -16,6 +17,8 @@ urlpatterns = [
     url(r'^login/$', user_login, name='login'),
     url(r'^logout/$', user_logout, name='logout',),
     url(r'^register/$', register, name='register'),
+
+    url(r'simulation/$', simulation_view, name='simulation'),
 
     url(settings.ADMIN_URL_BASE, admin.site.urls),
 

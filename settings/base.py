@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'homepage',
     'profiles',
     'apiv1',
+    'tumor',
 
     'django_extensions',
     'rest_framework',
@@ -136,5 +137,11 @@ REST_FRAMEWORK = {
     ]
 }
 
+DEFAULT_CAROUSEL_IMAGE = '/static/images/default_carousel_background.jpg'
 
-GOOGLE_RECAPTCHA_SECRET_KEY = 'CHANGEME'
+
+try:
+    from settings_local import *
+except ImportError as e:
+    print("Nie podano pliku konfiguracji lokalnych")
+    pass

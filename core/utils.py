@@ -13,7 +13,7 @@ def media_file_path(instance, filename):
 
 
 def is_valid_username(username):
-    if len(username) > 20 or len(username) < 8:
+    if len(username) > 20 or len(username) < 3:
         return False
     if not re.match(r"(^[a-zA-Z0-9]+([_-]?[a-zA-Z0-9])*$)", username):
         return False
