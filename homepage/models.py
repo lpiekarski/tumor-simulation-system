@@ -8,8 +8,8 @@ from core.utils import media_file_path
 class Carousel(BaseModel):
     image = models.ImageField(
         upload_to=media_file_path,
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
     )
 
     content = models.TextField(

@@ -1,3 +1,12 @@
 from django.contrib import admin
 
-# Register your models here.
+from tumor.models import InitialTumor
+
+
+class InitialTumorAdmin(admin.ModelAdmin):
+
+    class Meta:
+        model = InitialTumor
+
+
+admin.site.register(InitialTumor, InitialTumorAdmin)
