@@ -1,7 +1,69 @@
 {% extends "base.html" %}
 {% load static %}
 {% load humanize %}
-{% block head_title %}{{ profile.user.username }}{% endblock %}
-
+{% block head_title %}Protocols{% endblock %}
 {% block body_block %}
+    <script src="{% static 'js/chart/Chart.min.js' %}"></script>
+    <div class="card-columns">
+        {% for pd in protocol_data %}
+            <div class="card px-3 py-3" style="width: 18rem;">
+                <canvas class="card-img-top bg-light border px-3 py-3" id="{{ forloop.counter0 }}_graph"></canvas>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {{ pd.protocol.name }}
+                    </h5>
+                    <p class="card-text">
+                        {{ pd.protocol.dose.count }} doses<br/>
+                        {{ pd.total_radiation_intake }} total radiation intake
+                        <p class="text-muted">
+                            Created by
+                            <a href="{% url 'profile_detail' pd.protocol.author.username %}">
+                                {% if pd.protocol.author.user_profile.full_name and pd.protocol.author.user_profile.full_name != "" %}
+                                    <strong>{{pd.protocol.author.user_profile.full_name}}</strong>
+                                {% else %}
+                                    @{{ pd.protocol.author.username }}
+                                {% endif %}
+                            </a>
+                        </p>
+                    </p>
+                    <a href="#" class="btn btn-primary">View</a>
+                </div>
+            </div>
+            <script type="text/javascript">
+                var ctx = document.getElementById('{{ forloop.counter0 }}_graph').getContext('2d');
+                var labels = [];
+                var data = [];
+                {% for dose in pd.doses %}
+                    labels.push({{ dose.time }});
+                    data.push({{ dose.dose }});
+                {% endfor %}
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Radiation intake',
+                            data: data,
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        legend: {
+                            display: false
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            </script>
+        {% empty %}
+        {% endfor %}
+    </div>
 {% endblock %}

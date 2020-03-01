@@ -5,3 +5,4 @@ djangorestframework==3.11.0
 Pillow==6.2.1
 pytz==2019.3
 requests==2.22.0
+django-guardian==2.2.0

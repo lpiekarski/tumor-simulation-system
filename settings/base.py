@@ -37,6 +37,7 @@ INSTALLED_APPS = [
 
     'django_extensions',
     'rest_framework',
+    'guardian',
 ]
 
 MIDDLEWARE = [
@@ -83,10 +84,13 @@ DATABASES = {
     }
 }
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'guardian.backends.ObjectPermissionBackend',
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -139,6 +143,7 @@ REST_FRAMEWORK = {
 
 DEFAULT_CAROUSEL_IMAGE = '/static/images/default_carousel_background.jpg'
 
+AVATAR_PROVIDER = 'https://www.tinygraphs.com/labs/isogrids/hexa/'
 
 try:
     from settings.settings_local import *

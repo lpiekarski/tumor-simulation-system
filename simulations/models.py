@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class InitialTumor(models.Model):
@@ -14,6 +15,7 @@ class InitialTumor(models.Model):
 
 class Protocol(models.Model):
     name = models.CharField(max_length=100, blank=False)  # TODO: add validation for correct protocol
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='protocol', null=False)
 
     def __str__(self):
         return self.name

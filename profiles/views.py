@@ -85,7 +85,7 @@ def register(request, template_name="profiles/register.html"):
                     os.makedirs(os.path.dirname(avatar_system_path))
 
                 avatar_generator_url = \
-                    'https://www.tinygraphs.com/labs/isogrids/hexa/{0}?theme=berrypie&numcolors=4&size=220&fmt=svg' \
+                    settings.AVATAR_PROVIDER + '{0}?theme=berrypie&numcolors=4&size=220&fmt=svg' \
                     .format(avatar_filename)
 
                 urllib.request.urlretrieve(avatar_generator_url, avatar_system_path)
