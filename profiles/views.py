@@ -23,6 +23,10 @@ from core.utils import \
     render_with_context
 
 
+def profile_edit(request, template_name="profiles/edit.html"):
+    return render_with_context(request, template_name, {})
+
+
 def profile_detail(request, username, template_name="profiles/profile.html"):
     try:
         profile = get_object_or_404(Profile, user__username=username)
