@@ -141,7 +141,7 @@ DEFAULT_CAROUSEL_IMAGE = '/static/images/default_carousel_background.jpg'
 
 
 try:
-    from settings_local import *
+    from settings.settings_local import *
 except ImportError as e:
-    print("Nie podano pliku konfiguracji lokalnych")
+    print("No local configuration file provided")
     pass
