@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load humanize %}
+{% load guardian_tags %}
 {% block head_title %}Protocols{% endblock %}
 {% block body_block %}
     <script src="{% static 'js/chart/Chart.min.js' %}"></script>
@@ -17,7 +18,7 @@
                         {{ pd.total_radiation_intake }} total radiation intake
                         <p class="text-muted">
                             Created by
-                            <a href="{% url 'profile_detail' pd.protocol.author.username %}">
+                            <a href="{% url 'profile_view' pd.protocol.author.username %}">
                                 {% if pd.protocol.author.user_profile.full_name and pd.protocol.author.user_profile.full_name != "" %}
                                     <strong>{{pd.protocol.author.user_profile.full_name}}</strong>
                                 {% else %}
@@ -26,7 +27,17 @@
                             </a>
                         </p>
                     </p>
-                    <a href="#" class="btn btn-primary">View</a>
+                    {% get_obj_perms request.user for pd.protocol as "protocol_perms" %}
+                    {% if "view_protocol" in protocol_perms or pd.protocol.author.username == request.user.username %}
+                        <a href="{% url 'protocol_view' pd.protocol.id %}" class="btn btn-secondary btn-block">View</a>
+                    {% else %}
+                        <a href="{% url 'protocol_view' pd.protocol.id %}" class="btn btn-secondary btn-block disabled" aria-disabled="true">View</a>
+                    {% endif %}
+                    {% if "edit_protocol" in protocol_perms or pd.protocol.author.username == request.user.username %}
+                        <a href="{% url 'protocol_edit' pd.protocol.id %}" class="btn btn-secondary btn-block">Edit</a>
+                    {% else %}
+                        <a href="{% url 'protocol_edit' pd.protocol.id %}" class="btn btn-secondary btn-block disabled" aria-disabled="true">Edit</a>
+                    {% endif %}
                 </div>
             </div>
             <script type="text/javascript">
@@ -64,6 +75,7 @@
                 });
             </script>
         {% empty %}
+        You have no access to any protocols. <a href="{% url 'protocol_create' %}">Create one</a>.
         {% endfor %}
     </div>
 {% endblock %}

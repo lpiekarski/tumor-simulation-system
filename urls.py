@@ -22,6 +22,7 @@ urlpatterns = [
     # submodule pages
     url(r"^profiles/", include("profiles.urls")),
     url(r"^simulations/", include("simulations.urls")),
+    url(r"^protocols/", include("protocols.urls")),
 
     # admin
     url(settings.ADMIN_URL_BASE, admin.site.urls),

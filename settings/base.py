@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'homepage',
     'profiles',
     'simulations',
+    'protocols',
     'apiv1',
 
     'django_extensions',

@@ -26,7 +26,7 @@
                                 Simulations
                             </a>
                             <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item small" href="{% url 'user_simulations_view' %}">
+                                <a class="dropdown-item small" href="{% url 'simulation_dashboard' %}">
                                     Your simulations
                                 </a>
                             </div>
@@ -36,8 +36,11 @@
                                 Protocols
                             </a>
                             <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item small" href="{% url 'user_protocols_view' %}">
+                                <a class="dropdown-item small" href="{% url 'protocol_dashboard' %}">
                                     Your protocols
+                                </a>
+                                <a class="dropdown-item small" href="{% url 'protocol_create' %}">
+                                    New protocol
                                 </a>
                             </div>
                         </li>
@@ -57,7 +60,7 @@
                                 <img style="margin-right:-6px" src="{{ user.user_profile.avatar.url }}" alt="" width="20" height="20">
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item small" href="{% url 'profile_detail' user.username %}">
+                                <a class="dropdown-item small" href="{% url 'profile_view' user.username %}">
                                     {% if user.user_profile.full_name and user.user_profile.full_name != "" %}
                                         <strong>{{user.user_profile.full_name}}</strong> <br/>
                                     {% endif %}
