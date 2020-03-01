@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from tumor.models import InitialTumor, Protocol, ProtocolDose
+from simulations.models import InitialTumor, Protocol, ProtocolDose
 
 
 class InitialTumorAdmin(admin.ModelAdmin):

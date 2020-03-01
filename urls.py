@@ -6,22 +6,27 @@ from django.conf import settings
 from django.views.generic.base import TemplateView, RedirectView
 from homepage.views import homepage, error_404_view, error_500_view, health_check_view
 from profiles.views import user_login, user_logout, register
-from tumor.views import simulation_view
+
 
 urlpatterns = [
     url(r"^$", homepage, name="home"),
     url(r"^404$", error_404_view, name="404"),
     url(r"^500$", error_500_view, name="500"),
     url(r"^health_check/$", health_check_view, name="health_check"),
-    url(r"^profiles/", include("profiles.urls")),
+
+    # user related pages
     url(r'^login/$', user_login, name='login'),
     url(r'^logout/$', user_logout, name='logout',),
     url(r'^register/$', register, name='register'),
 
-    url(r'simulation/$', simulation_view, name='simulation'),
+    # submodule pages
+    url(r"^profiles/", include("profiles.urls")),
+    url(r"^simulations/", include("simulations.urls")),
 
+    # admin
     url(settings.ADMIN_URL_BASE, admin.site.urls),
 
+    # programming APIs
     url(r"^api/v1/", include('apiv1.urls', namespace="apiv1")),
     url(r'^api-auth/', include('rest_framework.urls')),
 

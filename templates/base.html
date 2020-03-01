@@ -19,8 +19,28 @@
 
             <div class="collapse navbar-collapse py-0 my-0" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    {% block navbar_left_block %}
-                    {% endblock %}
+                    {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link btn btn-sm bg-dark dropdown-toggle font-weight-bold py-0 px-1 mx-1" href="#" id="simulationsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Simulations
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item small" href="{% url 'user_simulations_view' %}">
+                                    Your simulations
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link btn btn-sm bg-dark dropdown-toggle font-weight-bold py-0 px-1 mx-1" href="#" id="protocolsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Protocols
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item small" href="{% url 'user_protocols_view' %}">
+                                    Your protocols
+                                </a>
+                            </div>
+                        </li>
+                    {% endif %}
                 </ul>
                 <ul class="navbar-nav my-0">
                     {% if user.is_staff %}
