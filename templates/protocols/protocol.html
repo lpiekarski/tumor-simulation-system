@@ -56,7 +56,7 @@
                 </tr>
             </table>
             {% get_obj_perms request.user for pd.protocol as "protocol_perms" %}
-            {% if "edit_protocol" in protocol_perms or pd.protocol.author.username == request.user.username %}
+            {% if "change_protocol" in protocol_perms or pd.protocol.author.username == request.user.username %}
                 <a href="{% url 'protocol_edit' pd.protocol.id %}" class="btn btn-secondary btn-block">Edit</a>
             {% else %}
                 <a href="{% url 'protocol_edit' pd.protocol.id %}" class="btn btn-secondary btn-block disabled" aria-disabled="true">Edit</a>
