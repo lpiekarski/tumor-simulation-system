@@ -1,5 +1,6 @@
+from django.core.exceptions import MultipleObjectsReturned
 from guardian.shortcuts import get_objects_for_user
-
+from django.shortcuts import get_object_or_404
 from protocols.models import Protocol, ProtocolDose
 
 from core.utils import render_with_context
@@ -38,7 +39,32 @@ def dashboard(request, template_name="protocols/dashboard.html"):
 
 
 def protocol_view(request, protocol, template_name="protocols/protocol.html"):
-    return render_with_context(request, template_name, {})
+    try:
+        protocol_object = get_object_or_404(Protocol, id=protocol)
+    except MultipleObjectsReturned:
+        protocol_object = Protocol.objects.filter(id=protocol).latest('pk')
+    tri = 0
+    max_dose = 0
+    first_dose_time = None
+    last_dose_time = None
+    doses = ProtocolDose.objects.filter(protocol=protocol)
+    for dose in doses:
+        tri += dose.dose
+        if max_dose < dose.dose:
+            max_dose = dose.dose
+        if first_dose_time is None or first_dose_time > dose.time:
+            first_dose_time = dose.time
+        if last_dose_time is None or last_dose_time < dose.time:
+            last_dose_time = dose.time
+    pd = {
+        "protocol": protocol_object,
+        "doses": doses,
+        "total_radiation_intake": tri,
+        "first_dose_time": first_dose_time,
+        "last_dose_time": last_dose_time,
+        "max_dose": max_dose,
+    }
+    return render_with_context(request, template_name, {'pd': pd})
 
 
 def protocol_edit(request, protocol, template_name="protocols/edit.html"):
