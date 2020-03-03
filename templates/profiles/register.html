@@ -5,7 +5,7 @@
 
 {% block body_block %}
 <div class="row py-5">
-    <div class="card col-4 mx-auto py-2">
+    <div class="card mx-auto py-2 px-3">
         {% if register_status == "registered" %}
             <div>
                 <h5 class="text-center">Successfully registered.<br/><a href="{% url 'login' %}">Sign in</a></h5>
