@@ -32,7 +32,7 @@
                     </td>
                     <td>
                         <p class="card-text">
-                            {{ pd.total_radiation_intake }}
+                            {{ pd.total_radiation_intake }} Gy
                         </p>
                     </td>
                 </tr>
@@ -67,8 +67,14 @@
         var ctx = document.getElementById('protocol_graph').getContext('2d');
         var labels = [];
         var data = [];
+        var t, days, hours, minutes, timestring;
         {% for dose in pd.doses %}
-            labels.push({{ dose.time }});
+            t = {{ dose.time }} * {{ pd.time_step }};
+            days = Math.floor(t / (24 * 60));
+            hours = Math.floor((t % (24 * 60)) / 60);
+            minutes = t % 60;
+            timestring = ((hours < 10)?("0"):("")) + hours + ":" + ((minutes < 10)?("0"):("")) + minutes + ", day " + days;
+            labels.push(timestring);
             data.push({{ dose.dose }});
         {% endfor %}
         var myChart = new Chart(ctx, {
@@ -76,7 +82,7 @@
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Radiation intake',
+                    label: 'Radiation intake (Gy)',
                     data: data,
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     borderColor: 'rgba(255, 99, 132, 1)',

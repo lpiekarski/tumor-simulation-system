@@ -2,6 +2,8 @@ from django.core.exceptions import MultipleObjectsReturned
 from guardian.shortcuts import get_objects_for_user
 from django.shortcuts import get_object_or_404
 from protocols.models import Protocol, ProtocolDose
+from django.conf import settings
+from homepage.views import error_401_view
 
 from core.utils import render_with_context
 
@@ -33,6 +35,7 @@ def dashboard(request, template_name="protocols/dashboard.html"):
             "first_dose_time": first_dose_time,
             "last_dose_time": last_dose_time,
             "max_dose": max_dose,
+            "time_step": settings.PROTOCOL_TIME_STEP,
         }
         protocol_data.append(pd)
     return render_with_context(request, template_name, {"protocol_data": protocol_data})
@@ -63,13 +66,31 @@ def protocol_view(request, protocol, template_name="protocols/protocol.html"):
         "first_dose_time": first_dose_time,
         "last_dose_time": last_dose_time,
         "max_dose": max_dose,
+        "time_step": settings.PROTOCOL_TIME_STEP,
     }
     return render_with_context(request, template_name, {'pd': pd})
 
 
 def protocol_edit(request, protocol, template_name="protocols/edit.html"):
-    return render_with_context(request, template_name, {})
+    try:
+        protocol_object = get_object_or_404(Protocol, id=protocol)
+    except MultipleObjectsReturned:
+        protocol_object = Protocol.objects.filter(id=protocol).latest('pk')
+    if not request.user.has_perm("protocols.change_protocol", protocol_object):
+        return error_401_view(request)
+    doses = ProtocolDose.objects.filter(protocol=protocol)
+    doses_table = []
+    for dose in doses:
+        doses_table.append({"time": dose.time, "dose": dose.dose})
+
+    pd = {
+        "protocol": protocol_object,
+        "name": protocol_object.name,
+        "doses": doses_table,
+        "time_step": settings.PROTOCOL_TIME_STEP,
+    }
+    return render_with_context(request, template_name, {'pd': pd})
 
 
-def protocol_create(request, template_name="protocols/protocol_create.html"):
+def protocol_create(request, template_name="protocols/create.html"):
     return render_with_context(request, template_name, {})

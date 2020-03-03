@@ -12,9 +12,9 @@
             <div>
                 {% if profile.full_name and profile.full_name != "" %}
                     <strong>{{profile.full_name}}</strong><br/>
-                    <small class="text-muted">{{profile.username}}</small>
+                    <small class="text-muted">{{profile.user.username}}</small>
                 {% else %}
-                    <strong>@{{profile.username}}</strong>
+                    <strong>@{{profile.user.username}}</strong>
                 {% endif %}
             </div>
             <div>

@@ -134,6 +134,8 @@ MEDIA_URL = '/media/'
 
 SITE_TITLE = "Tumour Treatment Optimisation - Web App For Doctors"
 
+PROTOCOL_TIME_STEP = 6  # minutes
+
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
