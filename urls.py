@@ -4,12 +4,13 @@ from django.conf.urls.static import static
 from django.conf.urls import url, include
 from django.conf import settings
 from django.views.generic.base import TemplateView, RedirectView
-from homepage.views import homepage, error_404_view, error_500_view, health_check_view
+from homepage.views import homepage, error_404_view, error_401_view, error_500_view, health_check_view
 from profiles.views import user_login, user_logout, register
 
 
 urlpatterns = [
     url(r"^$", homepage, name="home"),
+    url(r"^401$", error_401_view, name="401"),
     url(r"^404$", error_404_view, name="404"),
     url(r"^500$", error_500_view, name="500"),
     url(r"^health_check/$", health_check_view, name="health_check"),

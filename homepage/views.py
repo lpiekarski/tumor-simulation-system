@@ -20,6 +20,12 @@ def error_500_view(request):
     return response
 
 
+def error_401_view(request):
+    response = render(request, "401.html")
+    response.status_code = 401
+    return response
+
+
 def error_404_view(request):
     response = render(request, "404.html")
     response.status_code = 404
