@@ -2,18 +2,27 @@
 {% load static %}
 {% load humanize %}
 {% load guardian_tags %}
-{% block head_title %}{{ pd.name }}{% endblock %}
+{% block head_title %}{% endblock %}
 {% block body_block %}
     <script src="{% static 'js/chart/Chart.min.js' %}"></script>
     <script type="text/javascript">
         var doses = [];
+        var name = '{{ pd.name }}';
+        var basic_title = document.title;
         var time_step = {{ pd.time_step }};
         {% for dose in pd.doses %}
             doses.push({ "time": {{ dose.time }}, "dose": {{ dose.dose }} });
         {% endfor %}
+
+        function build_name() {
+            name = document.getElementById("name_input").value;
+            var name_container = document.getElementById("name_container");
+            document.title = name + " " + basic_title;
+            name_container.innerHTML = name;
+        }
     </script>
     <div class="card">
-        <h5 class="card-header text-center">
+        <h5 id="name_container" class="card-header text-center">
             {{ pd.name }}
         </h5>
         <div class="card-body">
@@ -25,7 +34,7 @@
                             Name:
                         </th>
                         <th colspan="4">
-
+                            <input id="name_input" type="text" class="float-right" value="{{ pd.name }}" oninput='build_name()'>
                         </th>
                     </tr>
                 </thead>
@@ -36,6 +45,7 @@
         </div>
     </div>
     <script type="text/javascript">
+        build_name();
         var ctx = document.getElementById('protocol_graph').getContext('2d');
         var labels = [];
         var data = [];
@@ -111,11 +121,11 @@
 
                 cell1.innerHTML = "Time:";
                 cell1.style.width = "24%";
-                cell2.innerHTML = '<input id="time_' + i + '" type="text" class="float-right" value="' + dose.time +'" onchange="build_dose_table()" oninput=\'{doses[' + i + '].time = document.getElementById("time_' + i + '").value; build_dose_chart();}\'></input>';
+                cell2.innerHTML = '<input id="time_' + i + '" type="text" class="float-right" value="' + dose.time +'" onchange="build_dose_table()" oninput=\'{doses[' + i + '].time = document.getElementById("time_' + i + '").value; build_dose_chart();}\'>';
                 cell2.style.width = "24%";
                 cell3.innerHTML = "Dose:";
                 cell3.style.width = "24%";
-                cell4.innerHTML = '<input id="dose_' + i +'" type="text" class="float-right" value="' + dose.dose + '" onchange="build_dose_table()" oninput=\'{doses[' + i + '].dose = document.getElementById("dose_' + i + '").value; build_dose_chart();}\'></input>';
+                cell4.innerHTML = '<input id="dose_' + i +'" type="text" class="float-right" value="' + dose.dose + '" onchange="build_dose_table()" oninput=\'{doses[' + i + '].dose = document.getElementById("dose_' + i + '").value; build_dose_chart();}\'>';
                 cell4.style.width = "24%";
                 cell5.innerHTML = '<button class="btn btn-outline-secondary float-right" onclick="{doses.splice(' + i + ', 1); build_dose_table();}"><span class="big" aria-hidden="true">&times;</span></button>';
                 cell5.style.width = "4%";
