@@ -126,9 +126,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT = STATIC_DIR
 STATIC_URL = '/static/'
-STATICFILES_DIRS = []
 
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
@@ -150,7 +149,7 @@ DEFAULT_CAROUSEL_IMAGE = '/static/images/default_carousel_background.jpg'
 AVATAR_PROVIDER = 'https://www.tinygraphs.com/labs/isogrids/hexa/'
 
 try:
-    from settings.settings_local import *
+    from settings.local import *
 except ImportError as e:
     print("No local configuration file provided")
     pass
