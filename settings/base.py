@@ -131,7 +131,8 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
-SITE_TITLE = "Tumour Treatment Optimisation - Web App For Doctors"
+SITE_TITLE = "TSS"
+SITE_TITLE_FULL = "Tumor Simulation System"
 
 PROTOCOL_TIME_STEP = 6  # minutes
 

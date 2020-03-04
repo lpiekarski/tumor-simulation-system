@@ -5,7 +5,8 @@ from django.db.models import Max
 
 def core_values(request):
     data = {
-        'SITE_TITLE': getattr(settings, "SITE_TITLE", "Tumour Treatment Optimisation - Web App For Doctors"),
+        'SITE_TITLE': getattr(settings, "SITE_TITLE", "TSS"),
+        'SITE_TITLE_FULL': getattr(settings, "SITE_TITLE_FULL", "Tumor Simulation System")
     }
     return data
 
