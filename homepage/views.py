@@ -1,13 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from homepage.models import Carousel
+from guardian.shortcuts import get_objects_for_user
 
 
 def homepage(request, template_name="homepage.html"):
-    query = Carousel.objects.all()\
-        .filter(groups__pk__in=request.user.groups.values_list('pk', flat=True))\
-        .filter(is_public=True)\
-        .distinct()
+    query = get_objects_for_user(
+        request.user,
+        "homepage.view_carousel"
+    ).filter(is_public=True)
     context = {'carousel_items': query}
     return render(request, template_name, context)
 

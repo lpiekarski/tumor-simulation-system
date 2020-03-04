@@ -22,11 +22,6 @@ class Carousel(BaseModel):
         null=True,
     )
 
-    groups = models.ManyToManyField(
-        to=Group,
-        blank=True,
-    )
-
     @property
     def get_image_url(self):
         if self.image:
