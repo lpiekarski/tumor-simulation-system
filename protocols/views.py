@@ -1,6 +1,6 @@
 from django.core.exceptions import MultipleObjectsReturned
 from guardian.shortcuts import get_objects_for_user
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from protocols.models import Protocol, ProtocolDose
 from django.conf import settings
 from homepage.views import error_401_view
@@ -78,18 +78,29 @@ def protocol_edit(request, protocol, template_name="protocols/edit.html"):
         protocol_object = Protocol.objects.filter(id=protocol).latest('pk')
     if not request.user.has_perm("protocols.change_protocol", protocol_object):
         return error_401_view(request)
-    doses = ProtocolDose.objects.filter(protocol=protocol)
-    doses_table = []
-    for dose in doses:
-        doses_table.append({"time": dose.time, "dose": dose.dose})
+    if request.method == 'POST':
+        doses = request.POST.getlist("dose[]")
+        times = request.POST.getlist("time[]")
+        name = request.POST.get("name") # TODO protocol validation
+        protocol_object.name = name
+        protocol_object.save()
+        ProtocolDose.objects.filter(protocol=protocol).delete()
+        for i in range(0, len(times)):
+            ProtocolDose(protocol=protocol_object, time=times[i], dose=doses[i]).save()
+        return redirect('protocol_view', protocol)
+    else:
+        doses = ProtocolDose.objects.filter(protocol=protocol)
+        doses_table = []
+        for dose in doses:
+            doses_table.append({"time": dose.time, "dose": dose.dose})
 
-    pd = {
-        "protocol": protocol_object,
-        "name": protocol_object.name,
-        "doses": doses_table,
-        "time_step": settings.PROTOCOL_TIME_STEP,
-    }
-    return render_with_context(request, template_name, {'pd': pd})
+        pd = {
+            "protocol": protocol_object,
+            "name": protocol_object.name,
+            "doses": doses_table,
+            "time_step": settings.PROTOCOL_TIME_STEP,
+        }
+        return render_with_context(request, template_name, {'pd': pd})
 
 
 def protocol_create(request, template_name="protocols/create.html"):

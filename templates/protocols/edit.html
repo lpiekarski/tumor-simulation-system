@@ -27,21 +27,24 @@
         </h5>
         <div class="card-body">
             <canvas class="card-img-top bg-light border px-3 py-3 mb-3" id="protocol_graph"></canvas>
-            <table class="table table-striped table-hover table-responsive fixed-table-body">
-                <thead>
-                    <tr>
-                        <th>
-                            Name:
-                        </th>
-                        <th colspan="4">
-                            <input id="name_input" type="text" class="float-right" value="{{ pd.name }}" oninput='build_name()'>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody id="formtable">
-                </tbody>
-            </table>
-            <a href="{% url 'protocol_edit' pd.protocol.id %}" class="btn btn-secondary btn-block">Save</a>
+            <form enctype="multipart/form-data" method="post" action="{% url 'protocol_edit' pd.protocol.id %}">
+                {% csrf_token %}
+                <table class="table table-striped table-hover table-responsive fixed-table-body">
+                    <thead>
+                        <tr>
+                            <th>
+                                Name:
+                            </th>
+                            <th colspan="4">
+                                <input id="name_input" name="name" type="text" class="float-right" value="{{ pd.name }}" oninput='build_name()'>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="formtable">
+                    </tbody>
+                </table>
+                <input type="submit" class="btn btn-secondary btn-block" value="Save">
+            </form>
         </div>
     </div>
     <script type="text/javascript">
@@ -121,11 +124,11 @@
 
                 cell1.innerHTML = "Time:";
                 cell1.style.width = "24%";
-                cell2.innerHTML = '<input id="time_' + i + '" type="text" class="float-right" value="' + dose.time +'" onchange="build_dose_table()" oninput=\'{doses[' + i + '].time = document.getElementById("time_' + i + '").value; build_dose_chart();}\'>';
+                cell2.innerHTML = '<input id="time_' + i + '" name="time[]" type="text" class="float-right" value="' + dose.time +'" onchange="build_dose_table()" oninput=\'{doses[' + i + '].time = document.getElementById("time_' + i + '").value; build_dose_chart();}\'>';
                 cell2.style.width = "24%";
                 cell3.innerHTML = "Dose:";
                 cell3.style.width = "24%";
-                cell4.innerHTML = '<input id="dose_' + i +'" type="text" class="float-right" value="' + dose.dose + '" onchange="build_dose_table()" oninput=\'{doses[' + i + '].dose = document.getElementById("dose_' + i + '").value; build_dose_chart();}\'>';
+                cell4.innerHTML = '<input id="dose_' + i +'" name="dose[]" type="text" class="float-right" value="' + dose.dose + '" onchange="build_dose_table()" oninput=\'{doses[' + i + '].dose = document.getElementById("dose_' + i + '").value; build_dose_chart();}\'>';
                 cell4.style.width = "24%";
                 cell5.innerHTML = '<button class="btn btn-outline-secondary float-right" onclick="{doses.splice(' + i + ', 1); build_dose_table();}"><span class="big" aria-hidden="true">&times;</span></button>';
                 cell5.style.width = "4%";
@@ -133,7 +136,7 @@
             var row = formtable.insertRow(-1);
             var cell1 = row.insertCell(0);
             cell1.colSpan = 5;
-            cell1.innerHTML = '<button class="btn btn-outline-secondary btn-block" onclick=\'{doses.push({"time": doses[doses.length - 1].time, "dose": 0}); build_dose_table();}\'>Add Dose</button>';
+            cell1.innerHTML = '<button class="btn btn-outline-secondary btn-block" onclick=\'{doses.push({"time": ((doses.length > 0) ? (doses[doses.length - 1].time) : (0)), "dose": 0}); build_dose_table();}\'>Add Dose</button>';
         }
 
         build_dose_table();
