@@ -98,7 +98,7 @@ def register(request, template_name="profiles/register.html"):
                 profile.save()
                 context['register_status'] = 'registered'
             
-            login(request, user)
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return HttpResponseRedirect(reverse('home'))
     else:
         context['register_status'] = 'registering'
@@ -121,7 +121,7 @@ def user_login(request, template_name="profiles/login.html"):
         user = authenticate(username=username, password=password)
         if user:
             if user.is_active:
-                login(request, user)
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 return HttpResponseRedirect(reverse('home'))
             else:
                 context['login_status'] = 'account inactive'
