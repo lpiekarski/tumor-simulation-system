@@ -104,4 +104,21 @@ def protocol_edit(request, protocol, template_name="protocols/edit.html"):
 
 
 def protocol_create(request, template_name="protocols/create.html"):
-    return render_with_context(request, template_name, {})
+    if not request.user.has_perm("protocols.create_protocol"):
+        return error_401_view(request)
+    if request.method == 'POST':
+        doses = request.POST.getlist("dose[]")
+        times = request.POST.getlist("time[]")
+        name = request.POST.get("name")  # TODO protocol validation
+        protocol_object = Protocol(name=name, author=request.user)
+        protocol_object.save()
+        for i in range(0, len(times)):
+            ProtocolDose(protocol=protocol_object, time=times[i], dose=doses[i]).save()
+        return redirect('protocol_view', protocol_object.id)
+    else:
+        pd = {
+            "name": '',
+            "doses": [],
+            "time_step": settings.PROTOCOL_TIME_STEP,
+        }
+        return render_with_context(request, template_name, {'pd': pd})
