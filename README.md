@@ -29,7 +29,16 @@ pip install -r pip_requirements.txt
 ./manage.py runserver [port]
 ```
 
-Open http://127.0.0.1:[port] in your browser.
+7. To create a superuser account run:
+```shell script
+./manage.py createsuperuser
+```
+and provide the credentials
+
+8. Open http://127.0.0.1:[port] in your browser.
+
+9. For a superuser account to work properly you have to create its profile by logging in as a superuser, opening django administration (icon in the upper rigth corner), selecting profiles->add and creating a profile bound to the superuser account. Every field including the profile image must be not null
+
 
 ## Google reCAPTCHA site registration
 1. Visit link https://www.google.com/recaptcha/, look at the top right corner you will see Get reCAPTCHA link, click on it.
