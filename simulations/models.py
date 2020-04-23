@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from protocols.models import Protocol
+from django.conf import settings
+from datetime import datetime, timezone
 
 
 class InitialTumor(models.Model):
@@ -49,3 +51,21 @@ class SimulationState(models.Model):
 
     class Meta:
         verbose_name = 'Simulation State'
+
+
+class SimulationServer(models.Model):
+    name = models.CharField(max_length=100, blank=False)
+    url = models.CharField(max_length=255, blank=False)
+    status = models.CharField(max_length=255, blank=True, null=True, default='Stopped')
+    status_update_time = models.DateTimeField(blank=True, null=True)
+
+    @staticmethod
+    def refresh_status(sserver):
+        refresh_time = datetime.now(timezone.utc)
+        if sserver.status_update_time is None or (refresh_time - sserver.status_update_time).total_seconds() >= settings.SSERVER_REFRESH_RATE:
+            # TODO: make api request
+            sserver.status_update_time = refresh_time
+            sserver.save()
+
+    class Meta:
+        verbose_name = 'Simulation Server'

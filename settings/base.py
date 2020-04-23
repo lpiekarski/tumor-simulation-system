@@ -148,6 +148,8 @@ DEFAULT_CAROUSEL_IMAGE = '/static/images/default_carousel_background.jpg'
 
 AVATAR_PROVIDER = 'https://www.tinygraphs.com/labs/isogrids/hexa/'
 
+SSERVER_REFRESH_RATE = 5 * 60  # seconds
+
 try:
     from settings.local import *
 except ImportError as e:

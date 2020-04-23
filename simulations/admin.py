@@ -1,7 +1,7 @@
 from django.contrib import admin
 from guardian.admin import GuardedModelAdmin
 
-from simulations.models import InitialTumor
+from simulations.models import InitialTumor, SimulationServer
 
 
 class InitialTumorAdmin(GuardedModelAdmin):
@@ -11,3 +11,4 @@ class InitialTumorAdmin(GuardedModelAdmin):
 
 
 admin.site.register(InitialTumor, InitialTumorAdmin)
+admin.site.register(SimulationServer)

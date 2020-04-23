@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% load guardian_tags %}
+{% block head_title %}Simulation Servers{% endblock %}
+{% block body_block %}
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">URL</th>
+            <th scope="col">Status</th>
+            <th scope="col">Heartbeat</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sserver in sservers %}
+            {% if sserver.status == 'Stopped' %}
+            <tr class="table-danger">
+            {% elif sserver.status == 'Running' %}
+            <tr class="table-success">
+            {% else %}
+            <tr class="table-info">
+            {% endif %}
+                <th scope="row">
+                    {{ sserver.name }}
+                </th>
+                <td>
+                    <a href="{{ sserver.url }}">{{ sserver.url }}</a>
+                </td>
+                {% if sserver.status == 'Stopped' %}
+                    <td class="text-danger">
+                        {{ sserver.status }}
+                    </td>
+                {% elif sserver.status == 'Running' %}
+                    <td class="text-success">
+                        {{ sserver.status }}
+                    </td>
+                {% else %}
+                    <td class="text-muted">
+                        {{ sserver.status }}
+                    </td>
+                {% endif %}
+                <td>
+                    {{ sserver.status_update_time | naturaltime}}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
