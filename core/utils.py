@@ -8,9 +8,9 @@ import uuid
 
 
 def media_file_path(instance, filename):
-    ident = uuid.uuid4()
+    ident = str(uuid.uuid4())
     _, ext = os.path.splitext(filename)
-    return '{0}/{1}/{2}{3}'.format(ident[:2], ident[2:4], ident[4:], ext)
+    return '{0}{1}{2}{3}'.format(ident[:2], ident[2:4], ident[4:], ext)
 
 
 def is_valid_username(username):
