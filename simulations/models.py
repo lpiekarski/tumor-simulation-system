@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from protocols.models import Protocol
 from django.conf import settings
 from datetime import datetime, timezone
+import requests
 
 
 class Simulation(models.Model):
@@ -52,9 +53,36 @@ class SimulationServer(models.Model):
     def refresh_status(sserver):
         refresh_time = datetime.now(timezone.utc)
         if sserver.status_update_time is None or (refresh_time - sserver.status_update_time).total_seconds() >= settings.SSERVER_REFRESH_RATE:
-            # TODO: make api request
-            sserver.status_update_time = refresh_time
-            sserver.save()
+            try:
+                url = sserver.url
+                if not url.startswith('http'):
+                    url = 'http://' + url
+                if not url.endswith('/'):
+                    url = url + '/'
+                url = url + 'status'
+                print(url)
+                response = requests.post(url=url, data='[]')
+                if response.status_code == 200 and response.json()['status'] == 'ok':
+                    if response.json()['result']['status'] == 'idle':
+                        sserver.status = 'Running'
+                    elif response.json()['result']['status'] == 'running':
+                        sserver.status = 'Running'
+                    elif response.json()['result']['status'] == 'finished':
+                        sserver.status = 'Running'
+                    else:
+                        sserver.status = 'Stopped'
+                    sserver.status_update_time = refresh_time
+                    sserver.save()
+                else:
+                    sserver.status = 'Code: ' + str(response.status_code)
+                    sserver.save()
+            except requests.exceptions.HTTPError as e:
+                sserver.status = 'Exception: ' + e.response.text
+                sserver.save()
+            except:
+                sserver.status = 'Unknown exception'
+                sserver.save()
+                return
 
     class Meta:
         verbose_name = 'Simulation Server'
