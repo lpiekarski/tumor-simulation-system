@@ -74,13 +74,13 @@ class SimulationServer(models.Model):
                     sserver.status_update_time = refresh_time
                     sserver.save()
                 else:
-                    sserver.status = 'Code: ' + str(response.status_code)
+                    sserver.status = 'Stopped'
                     sserver.save()
             except requests.exceptions.HTTPError as e:
                 sserver.status = 'Exception: ' + e.response.text
                 sserver.save()
             except:
-                sserver.status = 'Unknown exception'
+                sserver.status = 'Stopped'
                 sserver.save()
                 return
 
