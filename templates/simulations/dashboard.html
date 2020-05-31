@@ -5,6 +5,7 @@
 {% block head_title %}Simulations{% endblock %}
 {% block body_block %}
     <script src="{% static 'js/chart/Chart.min.js' %}"></script>
+    <script src="{% static 'js/tss/protocols.js' %}"></script>
     <div class="card-columns">
         {% for sd in simulation_data %}
             <div class="card" style="width: 18rem;">
@@ -27,7 +28,21 @@
                         </strong> <br/>
                         <strong>{{ sd.pd.protocol.dose.count }}</strong> {% if sd.pd.protocol.dose.count == 1 %}dose{% else %}doses{% endif %}<br/>
                         <strong>{{ sd.pd.total_radiation_intake }} Gy</strong> total radiation intake
-                        <canvas class="card-img-top bg-light border px-3 py-3" id="{{ forloop.counter0 }}_graph"></canvas>
+                        <script type="text/javascript">
+                            var labels = [];
+                            var data = [];
+                            var t, days, hours, minutes, timestring;
+                            {% for dose in sd.pd.doses %}
+                                t = {{ dose.time }} * {{ sd.pd.time_step }};
+                                days = Math.floor(t / (24 * 60));
+                                hours = Math.floor((t % (24 * 60)) / 60);
+                                minutes = t % 60;
+                                timestring = ((hours < 10)?("0"):("")) + hours + ":" + ((minutes < 10)?("0"):("")) + minutes + ", day " + days;
+                                labels.push(timestring);
+                                data.push({{ dose.dose }});
+                            {% endfor %}
+                            draw_protocol_chart("card-img-top bg-light border px-3 py-3", labels, data);
+                        </script>
                         <p class="text-muted">
                             Created by
                             <a href="{% url 'profile_view' sd.simulation.author.username %}">
@@ -47,46 +62,6 @@
                     {% endif %}
                 </div>
             </div>
-            <script type="text/javascript">
-                var ctx = document.getElementById('{{ forloop.counter0 }}_graph').getContext('2d');
-                var labels = [];
-                var data = [];
-                var t, days, hours, minutes, timestring;
-                {% for dose in sd.pd.doses %}
-                    t = {{ dose.time }} * {{ sd.pd.time_step }};
-                    days = Math.floor(t / (24 * 60));
-                    hours = Math.floor((t % (24 * 60)) / 60);
-                    minutes = t % 60;
-                    timestring = ((hours < 10)?("0"):("")) + hours + ":" + ((minutes < 10)?("0"):("")) + minutes + ", day " + days;
-                    labels.push(timestring);
-                    data.push({{ dose.dose }});
-                {% endfor %}
-                var myChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Radiation intake (Gy)',
-                            data: data,
-                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                            borderColor: 'rgba(255, 99, 132, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        legend: {
-                            display: false
-                        },
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
-                        }
-                    }
-                });
-            </script>
         {% empty %}
         You have no access to any simulations. <a href="{% url 'simulation_create' %}">Create one</a>.
         {% endfor %}
