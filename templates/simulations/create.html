@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% load guardian_tags %}
+{% block head_title %}Simulation Creator{% endblock %}
+{% block body_block %}
+    <script src="{% static 'js/chart/Chart.min.js' %}"></script>
+    <script src="{% static 'js/tss/protocols.js' %}"></script>
+    <script type="text/javascript">
+        function on_protocol_select(id) {
+            var prev=document.getElementById('protocol_input').value;
+            if (prev) {
+                document.getElementById(prev + '_select').style.visibility='visible';
+                document.getElementById(prev + '_card').classList.remove('bg-info');
+            }
+            document.getElementById(id + '_select').style.visibility='hidden';
+            document.getElementById('protocol_input').value = id;
+            document.getElementById(id + '_card').classList.add('bg-info');
+        }
+    </script>
+    <div class="card">
+        <h5 id="name_container" class="card-header text-center">
+
+        </h5>
+        <td class="card-body">
+            <form id="sim_form" enctype="multipart/form-data" method="post" action="{% url 'simulation_create' %}">
+                {% csrf_token %}
+                <table class="table table-striped table-hover table-responsive fixed-table-body">
+                    <thead>
+                        <tr>
+                            <th>
+                                Name:
+                            </th>
+                            <th>
+                                <input id="name_input" name="name" type="text" class="float-right" value="">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="formtable">
+                        <tr>
+                            <td>
+                                Description:
+                            </td>
+                            <td>
+                                <textarea form="sim_form" id="description_input" name="description" class="float-right"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Time duration (in simulation steps, 1 step = 6 seconds):
+                            </td>
+                            <td>
+                                <input id="time_duration_input" name="time_duration" type="number" class="float-right" value="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Automaton initial state file:
+                            </td>
+                            <td>
+                                <input id="automaton_file_input" name="automaton_file" type="file" class="float-right" value="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                Protocol:
+                                <input id="protocol_input" name="protocol_id" type="text" hidden>
+                                <div class="row flex-row overflow-auto">
+                                {% for pd in protocol_data %}
+                                    <div id="{{pd.protocol.id}}_card" class="card px-3 py-3 m-2 col-4">
+                                        <script type="text/javascript">
+                                            var labels = [];
+                                            var data = [];
+                                            var t, days, hours, minutes, timestring;
+                                            {% for dose in pd.doses %}
+                                                t = {{ dose.time }} * {{ pd.time_step }};
+                                                days = Math.floor(t / (24 * 60));
+                                                hours = Math.floor((t % (24 * 60)) / 60);
+                                                minutes = t % 60;
+                                                timestring = ((hours < 10)?("0"):("")) + hours + ":" + ((minutes < 10)?("0"):("")) + minutes + ", day " + days;
+                                                labels.push(timestring);
+                                                data.push({{ dose.dose }});
+                                            {% endfor %}
+                                            draw_protocol_chart("card-img-top bg-light border px-3 py-3", labels, data);
+                                        </script>
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                {{ pd.protocol.name }}
+                                            </h5>
+                                            <p class="card-text">
+                                                <strong>{{ pd.protocol.dose.count }}</strong> {% if pd.protocol.dose.count == 1 %}dose{% else %}doses{% endif %}<br/>
+                                                <strong>{{ pd.total_radiation_intake }} Gy</strong> total radiation intake
+                                                <p class="text-muted">
+                                                    Created by
+                                                    <a href="{% url 'profile_view' pd.protocol.author.username %}">
+                                                        {% if pd.protocol.author.user_profile.full_name and pd.protocol.author.user_profile.full_name != "" %}
+                                                            <strong>{{pd.protocol.author.user_profile.full_name}}</strong>
+                                                        {% else %}
+                                                            @{{ pd.protocol.author.username }}
+                                                        {% endif %}
+                                                    </a>
+                                                </p>
+                                            </p>
+                                            {% get_obj_perms request.user for pd.protocol as "protocol_perms" %}
+                                            {% if "view_protocol" in protocol_perms or pd.protocol.author.username == request.user.username %}
+                                                <a id="{{pd.protocol.id}}_view" href="{% url 'protocol_view' pd.protocol.id %}" class="btn btn-secondary btn-block">View</a>
+                                                <a id="{{pd.protocol.id}}_select" href="javascript:void(0)" onclick="on_protocol_select({{pd.protocol.id}})" class="btn btn-secondary btn-block">Select</a>
+                                            {% else %}
+                                                <a id="{{pd.protocol.id}}_view" href="#" class="btn btn-secondary btn-block disabled" aria-disabled="true">View</a>
+                                                <a id="{{pd.protocol.id}}_select" href="#" class="btn btn-secondary btn-block disabled" aria-disabled="true">Select</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% empty %}
+                                You have no access to any protocols. <a href="{% url 'protocol_create' %}">Create one</a>.
+                                {% endfor %}
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <input type="submit" class="btn btn-secondary btn-block" value="Create">
+            </form>
+        </div>
+    </div>
+{% endblock %}

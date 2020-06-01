@@ -13,10 +13,10 @@ import shutil
 
 
 def save_state_as_image(statestr, minval, maxval):
-    save_filename = media_file_path(None, "state.png")
-    os.makedirs(os.path.dirname(save_filename), exist_ok=True)
+    save_filename = os.path.join(settings.MEDIA_ROOT, media_file_path(None, "state.png"))
     img = Image.new('RGB', (51, 51), (0, 0, 0))
-    statevals = ",".split(statestr)
+    statevals = statestr.split(",")
+    #print(statevals)
     id = 0
     for x in range(51):
         for y in range(51):
@@ -28,7 +28,7 @@ def save_state_as_image(statestr, minval, maxval):
                 color = 0
             if color > 255:
                 color = 255
-            img.putpixel((x, y), color)
+            img.putpixel((x, y), (color, color, color))
     img.save(save_filename, 'PNG')
     return save_filename
 
@@ -36,48 +36,48 @@ def save_state_as_image(statestr, minval, maxval):
 def run_simulation(**kwargs):
     simulation = kwargs['simulation']
     automaton_file = kwargs['automaton_file']
-    protocol_file_path = media_file_path(None, 'protocol.json')
-    results_dir_path = media_dir_path()
+    protocol_file_path = os.path.join(settings.MEDIA_ROOT, media_file_path(None, 'protocol.json'))
+    results_dir_path = os.path.join(settings.MEDIA_ROOT, media_dir_path())
     os.makedirs(results_dir_path, exist_ok=True)
     Protocol.to_file(simulation.protocol, protocol_file_path)
-    subprocess.run([settings.SIMULATION_EXECUTABLE, automaton_file, protocol_file_path, results_dir_path, simulation.time_duration, '1'])
+    subprocess.run([settings.SIMULATION_EXECUTABLE, automaton_file, protocol_file_path, results_dir_path, str(simulation.time_duration), '1'])
     os.remove(automaton_file)
     os.remove(protocol_file_path)
     output_dir = os.path.join(results_dir_path, '1', 'states')
     for state_filename in os.listdir(output_dir):
-        with open(state_filename) as f:
+        with open(os.path.join(output_dir, state_filename)) as f:
             lines = f.readlines()
             time = int(lines[0])
             _W = lines[1]
-            _W_img = save_state_as_image(_W, settings._W_min, settings._W_max)
+            _W_img = save_state_as_image(_W, settings.SIMULATION_IMAGE_SETTINGS['SIM_W_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_W_max'])
             _CHO = lines[2]
-            _CHO_img = save_state_as_image(_CHO, settings._CHO_min, settings._CHO_max)
+            _CHO_img = save_state_as_image(_CHO, settings.SIMULATION_IMAGE_SETTINGS['SIM_CHO_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_CHO_max'])
             _OX = lines[3]
-            _OX_img = save_state_as_image(_OX, settings._OX_min, settings._OX_max)
+            _OX_img = save_state_as_image(_OX, settings.SIMULATION_IMAGE_SETTINGS['SIM_OX_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_OX_max'])
             _GI = lines[4]
-            _GI_img = save_state_as_image(_GI, settings._GI_min, settings._GI_max)
+            _GI_img = save_state_as_image(_GI, settings.SIMULATION_IMAGE_SETTINGS['SIM_GI_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_GI_max'])
             _timeInRepair = lines[5]
-            _timeInRepair_img = save_state_as_image(_timeInRepair, settings._timeInRepair_min, settings._timeInRepair_max)
+            _timeInRepair_img = save_state_as_image(_timeInRepair, settings.SIMULATION_IMAGE_SETTINGS['SIM_timeInRepair_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_timeInRepair_max'])
             _irradiation = lines[6]
-            _irradiation_img = save_state_as_image(_irradiation, settings._irradiation_min, settings._irradiation_max)
+            _irradiation_img = save_state_as_image(_irradiation, settings.SIMULATION_IMAGE_SETTINGS['SIM_irradiation_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_irradiation_max'])
             _cellState = lines[7]
-            _cellState_img = save_state_as_image(_cellState, settings._cellState_min, settings._cellState_max)
+            _cellState_img = save_state_as_image(_cellState, settings.SIMULATION_IMAGE_SETTINGS['SIM_cellState_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_cellState_max'])
             _cellCycle = lines[8]
-            _cellCycle_img = save_state_as_image(_cellCycle, settings._cellCycle_min, settings._cellCycle_max)
+            _cellCycle_img = save_state_as_image(_cellCycle, settings.SIMULATION_IMAGE_SETTINGS['SIM_cellCycle_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_cellCycle_max'])
             _proliferationTime = lines[9]
-            _proliferationTime_img = save_state_as_image(_proliferationTime, settings._proliferationTime_min, settings._proliferationTime_max)
+            _proliferationTime_img = save_state_as_image(_proliferationTime, settings.SIMULATION_IMAGE_SETTINGS['SIM_proliferationTime_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_proliferationTime_max'])
             _cycleChanged = lines[10]
-            _cycleChanged_img = save_state_as_image(_cycleChanged, settings._cycleChanged_min, settings._cycleChanged_max)
+            _cycleChanged_img = save_state_as_image(_cycleChanged, settings.SIMULATION_IMAGE_SETTINGS['SIM_cycleChanged_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_cycleChanged_max'])
             _G1time = lines[11]
-            _G1time_img = save_state_as_image(_G1time, settings._G1time_min, settings._G1time_max)
+            _G1time_img = save_state_as_image(_G1time, settings.SIMULATION_IMAGE_SETTINGS['SIM_G1time_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_G1time_max'])
             _Stime = lines[12]
-            _Stime_img = save_state_as_image(_Stime, settings._Stime_min, settings._Stime_max)
+            _Stime_img = save_state_as_image(_Stime, settings.SIMULATION_IMAGE_SETTINGS['SIM_Stime_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_Stime_max'])
             _G2time = lines[13]
-            _G2time_img = save_state_as_image(_G2time, settings._G2time_min, settings._G2time_max)
+            _G2time_img = save_state_as_image(_G2time, settings.SIMULATION_IMAGE_SETTINGS['SIM_G2time_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_G2time_max'])
             _Mtime = lines[14]
-            _Mtime_img = save_state_as_image(_Mtime, settings._Mtime_min, settings._Mtime_max)
+            _Mtime_img = save_state_as_image(_Mtime, settings.SIMULATION_IMAGE_SETTINGS['SIM_Mtime_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_Mtime_max'])
             _Dtime = lines[15]
-            _Dtime_img = save_state_as_image(_Dtime, settings._Dtime_min, settings._Dtime_max)
+            _Dtime_img = save_state_as_image(_Dtime, settings.SIMULATION_IMAGE_SETTINGS['SIM_Dtime_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_Dtime_max'])
             simulation_state = SimulationState(
                 simulation=simulation,
                 time=time,
@@ -113,6 +113,7 @@ def run_simulation(**kwargs):
                 _Dtime_img=_Dtime_img)
             simulation_state.save()
     shutil.rmtree(results_dir_path, ignore_errors=True)
+    print('simulation done.')
 
 
 class Simulation(models.Model):

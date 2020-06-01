@@ -149,38 +149,40 @@ DEFAULT_CAROUSEL_IMAGE = '/static/images/default_carousel_background.jpg'
 AVATAR_PROVIDER = 'https://www.tinygraphs.com/labs/isogrids/hexa/'
 
 SSERVER_REFRESH_RATE = 30  # seconds
-SIMULATION_EXECUTABLE = '/static/bin/run_simulation'
+SIMULATION_EXECUTABLE = os.path.join(STATIC_DIR, 'bin/run_simulation')
 
-_W_min = 0
-_W_max = 1
-_CHO_min = 0
-_CHO_max = 1
-_OX_min = 0
-_OX_max = 1
-_GI_min = 0
-_GI_max = 1
-_timeInRepair_min = 0
-_timeInRepair_max = 1
-_irradiation_min = 0
-_irradiation_max = 1
-_cellState_min = 0
-_cellState_max = 1
-_cellCycle_min = 0
-_cellCycle_max = 1
-_proliferationTime_min = 0
-_proliferationTime_max = 1
-_cycleChanged_min = 0
-_cycleChanged_max = 1
-_G1time_min = 0
-_G1time_max = 1
-_Stime_min = 0
-_Stime_max = 1
-_G2time_min = 0
-_G2time_max = 1
-_Mtime_min = 0
-_Mtime_max = 1
-_Dtime_min = 0
-_Dtime_max = 1
+SIMULATION_IMAGE_SETTINGS = {
+    'SIM_W_min': 0,
+    'SIM_W_max': 1,
+    'SIM_CHO_min': 0,
+    'SIM_CHO_max': 1e-12,
+    'SIM_OX_min': 0,
+    'SIM_OX_max': 1e-13,
+    'SIM_GI_min': 0,
+    'SIM_GI_max': 1e-16,
+    'SIM_timeInRepair_min': 0,
+    'SIM_timeInRepair_max': 1,
+    'SIM_irradiation_min': 0,
+    'SIM_irradiation_max': 1,
+    'SIM_cellState_min': 0,
+    'SIM_cellState_max': 5,
+    'SIM_cellCycle_min': 0,
+    'SIM_cellCycle_max': 5,
+    'SIM_proliferationTime_min': 0,
+    'SIM_proliferationTime_max': 30,
+    'SIM_cycleChanged_min': 0,
+    'SIM_cycleChanged_max': 5,
+    'SIM_G1time_min': 0,
+    'SIM_G1time_max': 10,
+    'SIM_Stime_min': 0,
+    'SIM_Stime_max': 20,
+    'SIM_G2time_min': 0,
+    'SIM_G2time_max': 5,
+    'SIM_Mtime_min': 0,
+    'SIM_Mtime_max': 5,
+    'SIM_Dtime_min': 0,
+    'SIM_Dtime_max': 0.5
+}
 
 try:
     from settings.local import *

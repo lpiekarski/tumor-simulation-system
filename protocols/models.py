@@ -15,7 +15,7 @@ class Protocol(models.Model):
 
     @staticmethod
     def to_file(protocol, filename):
-        os.makedirs(os.path.dirname(filename), exist_ok=True)
+        os.path.dirname(filename)
         doses = ProtocolDose.objects.filter(protocol=protocol)
         with open(filename, 'w') as out:
             for dose in doses:
