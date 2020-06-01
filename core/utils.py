@@ -13,6 +13,11 @@ def media_file_path(instance, filename):
     return '{0}{1}{2}{3}'.format(ident[:2], ident[2:4], ident[4:], ext)
 
 
+def media_dir_path(instance=None, filename=None):
+    ident = str(uuid.uuid4())
+    return '{0}{1}{2}'.format(ident[:2], ident[2:4], ident[4:])
+
+
 def is_valid_username(username):
     if len(username) > 20 or len(username) < 3:
         return False

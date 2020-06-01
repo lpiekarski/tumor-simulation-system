@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import os
 
 
 class Protocol(models.Model):
@@ -11,6 +12,17 @@ class Protocol(models.Model):
 
     def serialize(self):
         return self.name  # TODO: serialize self.dose_set
+
+    @staticmethod
+    def to_file(protocol, filename):
+        os.makedirs(os.path.dirname(filename), exist_ok=True)
+        doses = ProtocolDose.objects.filter(protocol=protocol)
+        with open(filename, 'w') as out:
+            for dose in doses:
+                out.write(str(dose.dose) + ' ')
+            out.write('\n')
+            for dose in doses:
+                out.write(str(dose.time) + ' ')
 
 
 class ProtocolDose(models.Model):
