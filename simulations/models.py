@@ -4,6 +4,7 @@ from protocols.models import Protocol
 from django.conf import settings
 from datetime import datetime, timezone
 import requests
+from core.utils import media_file_path
 
 
 class Simulation(models.Model):
@@ -24,20 +25,35 @@ class SimulationState(models.Model):
     simulation = models.ForeignKey(to='Simulation', on_delete=models.CASCADE, related_name='state', null=False)
     time = models.IntegerField(verbose_name='Time', null=False)
     _W = models.TextField(null=False)
+    _W_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
     _CHO = models.TextField(null=False)
+    _CHO_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
     _OX = models.TextField(null=False)
+    _OX_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
     _GI = models.TextField(null=False)
+    _GI_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
     _timeInRepair = models.TextField(null=False)
+    _timeInRepair_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
     _irradiation = models.TextField(null=False)
+    _irradiation_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
     _cellState = models.TextField(null=False)
+    _cellState_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
     _cellCycle = models.TextField(null=False)
+    _cellCycle_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
     _proliferationTime = models.TextField(null=False)
+    _proliferationTime_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
     _cycleChanged = models.TextField(null=False)
+    _cycleChanged_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
     _G1time = models.TextField(null=False)
+    _G1time_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
     _Stime = models.TextField(null=False)
+    _Stime_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
     _G2time = models.TextField(null=False)
+    _G2time_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
     _Mtime = models.TextField(null=False)
+    _Mtime_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
     _Dtime = models.TextField(null=False)
+    _Dtime_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Simulation State'
