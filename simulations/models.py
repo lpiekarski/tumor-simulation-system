@@ -49,69 +49,69 @@ def run_simulation(**kwargs):
         with open(os.path.join(output_dir, state_filename)) as f:
             lines = f.readlines()
             time = int(lines[0])
-            _W = lines[1]
-            _W_img = save_state_as_image(_W, settings.SIMULATION_IMAGE_SETTINGS['SIM_W_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_W_max'])
-            _CHO = lines[2]
-            _CHO_img = save_state_as_image(_CHO, settings.SIMULATION_IMAGE_SETTINGS['SIM_CHO_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_CHO_max'])
-            _OX = lines[3]
-            _OX_img = save_state_as_image(_OX, settings.SIMULATION_IMAGE_SETTINGS['SIM_OX_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_OX_max'])
-            _GI = lines[4]
-            _GI_img = save_state_as_image(_GI, settings.SIMULATION_IMAGE_SETTINGS['SIM_GI_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_GI_max'])
-            _timeInRepair = lines[5]
-            _timeInRepair_img = save_state_as_image(_timeInRepair, settings.SIMULATION_IMAGE_SETTINGS['SIM_timeInRepair_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_timeInRepair_max'])
-            _irradiation = lines[6]
-            _irradiation_img = save_state_as_image(_irradiation, settings.SIMULATION_IMAGE_SETTINGS['SIM_irradiation_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_irradiation_max'])
-            _cellState = lines[7]
-            _cellState_img = save_state_as_image(_cellState, settings.SIMULATION_IMAGE_SETTINGS['SIM_cellState_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_cellState_max'])
-            _cellCycle = lines[8]
-            _cellCycle_img = save_state_as_image(_cellCycle, settings.SIMULATION_IMAGE_SETTINGS['SIM_cellCycle_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_cellCycle_max'])
-            _proliferationTime = lines[9]
-            _proliferationTime_img = save_state_as_image(_proliferationTime, settings.SIMULATION_IMAGE_SETTINGS['SIM_proliferationTime_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_proliferationTime_max'])
-            _cycleChanged = lines[10]
-            _cycleChanged_img = save_state_as_image(_cycleChanged, settings.SIMULATION_IMAGE_SETTINGS['SIM_cycleChanged_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_cycleChanged_max'])
-            _G1time = lines[11]
-            _G1time_img = save_state_as_image(_G1time, settings.SIMULATION_IMAGE_SETTINGS['SIM_G1time_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_G1time_max'])
-            _Stime = lines[12]
-            _Stime_img = save_state_as_image(_Stime, settings.SIMULATION_IMAGE_SETTINGS['SIM_Stime_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_Stime_max'])
-            _G2time = lines[13]
-            _G2time_img = save_state_as_image(_G2time, settings.SIMULATION_IMAGE_SETTINGS['SIM_G2time_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_G2time_max'])
-            _Mtime = lines[14]
-            _Mtime_img = save_state_as_image(_Mtime, settings.SIMULATION_IMAGE_SETTINGS['SIM_Mtime_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_Mtime_max'])
-            _Dtime = lines[15]
-            _Dtime_img = save_state_as_image(_Dtime, settings.SIMULATION_IMAGE_SETTINGS['SIM_Dtime_min'], settings.SIMULATION_IMAGE_SETTINGS['SIM_Dtime_max'])
+            W = lines[1]
+            W_img = save_state_as_image(W, settings.SIMULATION_IMAGE_SETTINGS['SIMW_min'], settings.SIMULATION_IMAGE_SETTINGS['SIMW_max'])
+            CHO = lines[2]
+            CHO_img = save_state_as_image(CHO, settings.SIMULATION_IMAGE_SETTINGS['SIMCHO_min'], settings.SIMULATION_IMAGE_SETTINGS['SIMCHO_max'])
+            OX = lines[3]
+            OX_img = save_state_as_image(OX, settings.SIMULATION_IMAGE_SETTINGS['SIMOX_min'], settings.SIMULATION_IMAGE_SETTINGS['SIMOX_max'])
+            GI = lines[4]
+            GI_img = save_state_as_image(GI, settings.SIMULATION_IMAGE_SETTINGS['SIMGI_min'], settings.SIMULATION_IMAGE_SETTINGS['SIMGI_max'])
+            timeInRepair = lines[5]
+            timeInRepair_img = save_state_as_image(timeInRepair, settings.SIMULATION_IMAGE_SETTINGS['SIMtimeInRepair_min'], settings.SIMULATION_IMAGE_SETTINGS['SIMtimeInRepair_max'])
+            irradiation = lines[6]
+            irradiation_img = save_state_as_image(irradiation, settings.SIMULATION_IMAGE_SETTINGS['SIMirradiation_min'], settings.SIMULATION_IMAGE_SETTINGS['SIMirradiation_max'])
+            cellState = lines[7]
+            cellState_img = save_state_as_image(cellState, settings.SIMULATION_IMAGE_SETTINGS['SIMcellState_min'], settings.SIMULATION_IMAGE_SETTINGS['SIMcellState_max'])
+            cellCycle = lines[8]
+            cellCycle_img = save_state_as_image(cellCycle, settings.SIMULATION_IMAGE_SETTINGS['SIMcellCycle_min'], settings.SIMULATION_IMAGE_SETTINGS['SIMcellCycle_max'])
+            proliferationTime = lines[9]
+            proliferationTime_img = save_state_as_image(proliferationTime, settings.SIMULATION_IMAGE_SETTINGS['SIMproliferationTime_min'], settings.SIMULATION_IMAGE_SETTINGS['SIMproliferationTime_max'])
+            cycleChanged = lines[10]
+            cycleChanged_img = save_state_as_image(cycleChanged, settings.SIMULATION_IMAGE_SETTINGS['SIMcycleChanged_min'], settings.SIMULATION_IMAGE_SETTINGS['SIMcycleChanged_max'])
+            G1time = lines[11]
+            G1time_img = save_state_as_image(G1time, settings.SIMULATION_IMAGE_SETTINGS['SIMG1time_min'], settings.SIMULATION_IMAGE_SETTINGS['SIMG1time_max'])
+            Stime = lines[12]
+            Stime_img = save_state_as_image(Stime, settings.SIMULATION_IMAGE_SETTINGS['SIMStime_min'], settings.SIMULATION_IMAGE_SETTINGS['SIMStime_max'])
+            G2time = lines[13]
+            G2time_img = save_state_as_image(G2time, settings.SIMULATION_IMAGE_SETTINGS['SIMG2time_min'], settings.SIMULATION_IMAGE_SETTINGS['SIMG2time_max'])
+            Mtime = lines[14]
+            Mtime_img = save_state_as_image(Mtime, settings.SIMULATION_IMAGE_SETTINGS['SIMMtime_min'], settings.SIMULATION_IMAGE_SETTINGS['SIMMtime_max'])
+            Dtime = lines[15]
+            Dtime_img = save_state_as_image(Dtime, settings.SIMULATION_IMAGE_SETTINGS['SIMDtime_min'], settings.SIMULATION_IMAGE_SETTINGS['SIMDtime_max'])
             simulation_state = SimulationState(
                 simulation=simulation,
                 time=time,
-                _W=_W,
-                _W_img=_W_img,
-                _CHO=_CHO,
-                _CHO_img=_CHO_img,
-                _OX=_OX,
-                _OX_img=_OX_img,
-                _GI=_GI,
-                _GI_img=_GI_img,
-                _timeInRepair=_timeInRepair,
-                _timeInRepair_img=_timeInRepair_img,
-                _irradiation=_irradiation,
-                _irradiation_img=_irradiation_img,
-                _cellState=_cellState,
-                _cellState_img=_cellState_img,
-                _cellCycle=_cellCycle,
-                _cellCycle_img=_cellCycle_img,
-                _proliferationTime=_proliferationTime,
-                _proliferationTime_img=_proliferationTime_img,
-                _cycleChanged=_cycleChanged,
-                _cycleChanged_img=_cycleChanged_img,
-                _G1time=_G1time,
-                _G1time_img=_G1time_img,
-                _Stime=_Stime,
-                _Stime_img=_Stime_img,
-                _G2time=_G2time,
-                _G2time_img=_G2time_img,
-                _Mtime=_Mtime,
-                _Mtime_img=_Mtime_img,
-                _Dtime=_Dtime,
-                _Dtime_img=_Dtime_img)
+                W=W,
+                W_img=W_img,
+                CHO=CHO,
+                CHO_img=CHO_img,
+                OX=OX,
+                OX_img=OX_img,
+                GI=GI,
+                GI_img=GI_img,
+                timeInRepair=timeInRepair,
+                timeInRepair_img=timeInRepair_img,
+                irradiation=irradiation,
+                irradiation_img=irradiation_img,
+                cellState=cellState,
+                cellState_img=cellState_img,
+                cellCycle=cellCycle,
+                cellCycle_img=cellCycle_img,
+                proliferationTime=proliferationTime,
+                proliferationTime_img=proliferationTime_img,
+                cycleChanged=cycleChanged,
+                cycleChanged_img=cycleChanged_img,
+                G1time=G1time,
+                G1time_img=G1time_img,
+                Stime=Stime,
+                Stime_img=Stime_img,
+                G2time=G2time,
+                G2time_img=G2time_img,
+                Mtime=Mtime,
+                Mtime_img=Mtime_img,
+                Dtime=Dtime,
+                Dtime_img=Dtime_img)
             simulation_state.save()
     shutil.rmtree(results_dir_path, ignore_errors=True)
     print('simulation done.')
@@ -139,38 +139,38 @@ class Simulation(models.Model):
 
 
 class SimulationState(models.Model):
-    simulation = models.ForeignKey(to='Simulation', on_delete=models.CASCADE, related_name='state', null=False)
+    simulation = models.ForeignKey(to='Simulation', on_delete=models.CASCADE, related_name='states', null=False)
     time = models.IntegerField(verbose_name='Time', null=False)
-    _W = models.TextField(null=False)
-    _W_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
-    _CHO = models.TextField(null=False)
-    _CHO_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
-    _OX = models.TextField(null=False)
-    _OX_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
-    _GI = models.TextField(null=False)
-    _GI_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
-    _timeInRepair = models.TextField(null=False)
-    _timeInRepair_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
-    _irradiation = models.TextField(null=False)
-    _irradiation_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
-    _cellState = models.TextField(null=False)
-    _cellState_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
-    _cellCycle = models.TextField(null=False)
-    _cellCycle_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
-    _proliferationTime = models.TextField(null=False)
-    _proliferationTime_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
-    _cycleChanged = models.TextField(null=False)
-    _cycleChanged_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
-    _G1time = models.TextField(null=False)
-    _G1time_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
-    _Stime = models.TextField(null=False)
-    _Stime_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
-    _G2time = models.TextField(null=False)
-    _G2time_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
-    _Mtime = models.TextField(null=False)
-    _Mtime_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
-    _Dtime = models.TextField(null=False)
-    _Dtime_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
+    W = models.TextField(null=False)
+    W_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
+    CHO = models.TextField(null=False)
+    CHO_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
+    OX = models.TextField(null=False)
+    OX_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
+    GI = models.TextField(null=False)
+    GI_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
+    timeInRepair = models.TextField(null=False)
+    timeInRepair_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
+    irradiation = models.TextField(null=False)
+    irradiation_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
+    cellState = models.TextField(null=False)
+    cellState_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
+    cellCycle = models.TextField(null=False)
+    cellCycle_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
+    proliferationTime = models.TextField(null=False)
+    proliferationTime_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
+    cycleChanged = models.TextField(null=False)
+    cycleChanged_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
+    G1time = models.TextField(null=False)
+    G1time_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
+    Stime = models.TextField(null=False)
+    Stime_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
+    G2time = models.TextField(null=False)
+    G2time_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
+    Mtime = models.TextField(null=False)
+    Mtime_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
+    Dtime = models.TextField(null=False)
+    Dtime_img = models.ImageField(upload_to=media_file_path, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Simulation State'

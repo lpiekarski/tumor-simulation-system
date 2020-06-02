@@ -46,21 +46,21 @@ def dashboard(request, template_name="simulations/dashboard.html"):
         images2 = []
         images3 = []
         if first_state is not None:
-            images1.append(first_state._W_img)
-            images1.append(first_state._CHO_img)
-            images1.append(first_state._OX_img)
-            images1.append(first_state._GI_img)
-            images1.append(first_state._timeInRepair_img)
-            images2.append(first_state._irradiation_img)
-            images2.append(first_state._cellState_img)
-            images2.append(first_state._cellCycle_img)
-            images2.append(first_state._proliferationTime_img)
-            images2.append(first_state._cycleChanged_img)
-            images3.append(first_state._G1time_img)
-            images3.append(first_state._Stime_img)
-            images3.append(first_state._G2time_img)
-            images3.append(first_state._Mtime_img)
-            images3.append(first_state._Dtime_img)
+            images1.append(first_state.W_img)
+            images1.append(first_state.CHO_img)
+            images1.append(first_state.OX_img)
+            images1.append(first_state.GI_img)
+            images1.append(first_state.timeInRepair_img)
+            images2.append(first_state.irradiation_img)
+            images2.append(first_state.cellState_img)
+            images2.append(first_state.cellCycle_img)
+            images2.append(first_state.proliferationTime_img)
+            images2.append(first_state.cycleChanged_img)
+            images3.append(first_state.G1time_img)
+            images3.append(first_state.Stime_img)
+            images3.append(first_state.G2time_img)
+            images3.append(first_state.Mtime_img)
+            images3.append(first_state.Dtime_img)
         sd = {
             "simulation": simulation,
             "images1": images1,
@@ -77,7 +77,10 @@ def simulation_view(request, simulation, template_name="simulations/simulation.h
         simulation_object = get_object_or_404(Simulation, id=simulation)
     except MultipleObjectsReturned:
         simulation_object = Simulation.objects.filter(id=simulation).latest('pk')
+    states = SimulationState.objects.filter(simulation=simulation_object).order_by('time')
     sd = {
+        'simulation': simulation_object,
+        'states': states
     }
     return render_with_context(request, template_name, {'sd': sd})
 
