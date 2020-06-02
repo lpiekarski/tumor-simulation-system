@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% load guardian_tags %}
+{% block head_title %}Simulations{% endblock %}
+{% block body_block %}
+    <script src="{% static 'js/chart/Chart.min.js' %}"></script>
+    <script src="{% static 'js/tss/protocols.js' %}"></script>
+    <div class="card-columns">
+        {% for sd in simulation_data %}
+            <div class="card">
+                <h5 class="card-header text-center">
+                    {{ sd.simulation.name }}
+                </h5>
+                <div class="card-body">
+                    <p class="card-text">
+                        {{ sd.simulation.description }}
+                        <br/>
+                        <strong>{% widthratio sd.simulation.time_duration 1 sd.pd.time_step %}</strong> seconds duration <br/>
+                        {% get_obj_perms request.user for sd.pd.protocol as "protocol_perms" %}
+                        Protocol
+                        <strong>
+                            {% if "view_protocol" in protocol_perms or sd.pd.protocol.author.username == request.user.username %}
+                                <a href="{% url 'protocol_view' sd.pd.protocol.id %}">{{ sd.pd.protocol.name }}</a>
+                            {% else %}
+                                {{ sd.pd.protocol.name }}
+                            {% endif %}
+                        </strong> <br/>
+                        <strong>{{ sd.pd.protocol.dose.count }}</strong> {% if sd.pd.protocol.dose.count == 1 %}dose{% else %}doses{% endif %}<br/>
+                        <strong>{{ sd.pd.total_radiation_intake }} Gy</strong> total radiation intake
+                        <script type="text/javascript">
+                            var labels = [];
+                            var data = [];
+                            var t, days, hours, minutes, timestring;
+                            {% for dose in sd.pd.doses %}
+                                t = {{ dose.time }} * {{ sd.pd.time_step }};
+                                days = Math.floor(t / (24 * 60));
+                                hours = Math.floor((t % (24 * 60)) / 60);
+                                minutes = t % 60;
+                                timestring = ((hours < 10)?("0"):("")) + hours + ":" + ((minutes < 10)?("0"):("")) + minutes + ", day " + days;
+                                labels.push(timestring);
+                                data.push({{ dose.dose }});
+                            {% endfor %}
+                            draw_protocol_chart("card-img-top bg-light border px-3 py-3", labels, data);
+                        </script>
+                        <div class="overflow-auto">
+                            <div class="d-flex justify-content-center my-2">
+                            {% for img in sd.images1 %}
+                                <img class="mx-2" src="{{ img.url }}">
+                            {% endfor %}
+                            </div>
+                            <div class="d-flex justify-content-center my-2">
+                            {% for img in sd.images2 %}
+                                <img class="mx-2" src="{{ img.url }}">
+                            {% endfor %}
+                            </div>
+                            <div class="d-flex justify-content-center my-2">
+                            {% for img in sd.images3 %}
+                                <img class="mx-2" src="{{ img.url }}">
+                            {% endfor %}
+                            </div>
+                        </div>
+                        <p class="text-muted">
+                            Created by
+                            <a href="{% url 'profile_view' sd.simulation.author.username %}">
+                                {% if sd.simulation.author.user_profile.full_name and sd.simulation.author.user_profile.full_name != "" %}
+                                    <strong>{{sd.simulation.author.user_profile.full_name}}</strong>
+                                {% else %}
+                                    @{{ sd.simulation.author.username }}
+                                {% endif %}
+                            </a>
+                        </p>
+                    </p>
+                    {% get_obj_perms request.user for sd.simulation as "simulation_perms" %}
+                    {% if "view_simulation" in simulation_perms or sd.simulation.author.username == request.user.username %}
+                        <a href="{% url 'simulation_view' sd.simulation.id %}" class="btn btn-secondary btn-block">View</a>
+                    {% else %}
+                        <a href="{% url 'simulation_view' sd.simulation.id %}" class="btn btn-secondary btn-block disabled" aria-disabled="true">View</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% empty %}
+        You have no access to any simulations. <a href="{% url 'simulation_create' %}">Create one</a>.
+        {% endfor %}
+    </div>
+{% endblock %}

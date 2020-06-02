@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% load guardian_tags %}
+{% block head_title %}{{ sd.simulation.name}}{% endblock %}
+{% block body_block %}
+<script src="{% static 'js/chart/Chart.min.js' %}"></script>
+<script src="{% static 'js/tss/protocols.js' %}"></script>
+<script type="text/javascript">
+    var current_time = 0;
+    var states = [];
+    {% for state in sd.states %}
+    states.push([
+            "{{ MEDIA_PREFIX }}{{ state.W_img }}",
+            "{{ MEDIA_PREFIX }}{{ state.CHO_img }}",
+            "{{ MEDIA_PREFIX }}{{ state.OX_img }}",
+            "{{ MEDIA_PREFIX }}{{ state.GI_img }}",
+            "{{ MEDIA_PREFIX }}{{ state.timeInRepair_img }}",
+            "{{ MEDIA_PREFIX }}{{ state.irradiation_img }}",
+            "{{ MEDIA_PREFIX }}{{ state.cellState_img }}",
+            "{{ MEDIA_PREFIX }}{{ state.cellCycle_img }}",
+            "{{ MEDIA_PREFIX }}{{ state.proliferationTime_img }}",
+            "{{ MEDIA_PREFIX }}{{ state.cycleChanged_img }}",
+            "{{ MEDIA_PREFIX }}{{ state.G1time_img }}",
+            "{{ MEDIA_PREFIX }}{{ state.Stime_img }}",
+            "{{ MEDIA_PREFIX }}{{ state.G2time_img }}",
+            "{{ MEDIA_PREFIX }}{{ state.Mtime_img }}",
+            "{{ MEDIA_PREFIX }}{{ state.Dtime_img }}",
+        ]);
+    {% endfor %}
+    function set_img_urls() {
+        document.getElementById('W_img').src = states[current_time][0];
+        document.getElementById('CHO_img').src = states[current_time][1];
+        document.getElementById('OX_img').src = states[current_time][2];
+        document.getElementById('GI_img').src = states[current_time][3];
+        document.getElementById('timeInRepair_img').src = states[current_time][4];
+        document.getElementById('irradiation_img').src = states[current_time][5];
+        document.getElementById('cellState_img').src = states[current_time][6];
+        document.getElementById('cellCycle_img').src = states[current_time][7];
+        document.getElementById('proliferationTime_img').src = states[current_time][8];
+        document.getElementById('cycleChanged_img').src = states[current_time][9];
+        document.getElementById('G1time_img').src = states[current_time][10];
+        document.getElementById('Stime_img').src = states[current_time][11];
+        document.getElementById('G2time_img').src = states[current_time][12];
+        document.getElementById('Mtime_img').src = states[current_time][13];
+        document.getElementById('Dtime_img').src = states[current_time][14];
+    }
+    function update_state() {
+        current_time = document.getElementById('time_slider').value;
+        set_img_urls();
+    }
+</script>
+<div class="card">
+    <h5 class="card-header text-center">
+        {{ sd.simulation.name }}
+    </h5>
+    <div class="card-body">
+        <p class="card-text">
+            {{ sd.simulation.description }}
+            <br/>
+            <strong>{% widthratio sd.simulation.time_duration 1 6 %}</strong> seconds duration <br/>
+            <div class="overflow-auto">
+                <div class="d-flex justify-content-center my-2">
+                    <div class="card mx-2" style="width:18rem;height:18rem;"><div class="card-header">W</div><div class="card-body justify-content-center d-flex m-0 p-0"><img id="W_img" class="img-responsive m-0 p-0" src="" style="object-fit: contain; width: 100%;"></div></div>
+                    <div class="card mx-2" style="width:18rem;height:18rem;"><div class="card-header">CHO</div><div class="card-body justify-content-center d-flex m-0 p-0"><img id="CHO_img" class="img-responsive m-0 p-0" src="" style="object-fit: contain; width: 100%;"></div></div>
+                    <div class="card mx-2" style="width:18rem;height:18rem;"><div class="card-header">OX</div><div class="card-body justify-content-center d-flex m-0 p-0"><img id="OX_img" class="img-responsive m-0 p-0" src="" style="object-fit: contain; width: 100%;"></div></div>
+                    <div class="card mx-2" style="width:18rem;height:18rem;"><div class="card-header">GI</div><div class="card-body justify-content-center d-flex m-0 p-0"><img id="GI_img" class="img-responsive m-0 p-0" src="" style="object-fit: contain; width: 100%;"></div></div>
+                    <div class="card mx-2" style="width:18rem;height:18rem;"><div class="card-header">timeInRepair</div><div class="card-body justify-content-center d-flex m-0 p-0"><img id="timeInRepair_img" class="img-responsive m-0 p-0" src="" style="object-fit: contain; width: 100%;"></div></div>
+                </div>
+                <div class="d-flex justify-content-center my-2">
+                    <div class="card mx-2" style="width:18rem;height:18rem;"><div class="card-header">irradiation</div><div class="card-body justify-content-center d-flex m-0 p-0"><img id="irradiation_img" class="img-responsive m-0 p-0" src="" style="object-fit: contain; width: 100%;"></div></div>
+                    <div class="card mx-2" style="width:18rem;height:18rem;"><div class="card-header">cellState</div><div class="card-body justify-content-center d-flex m-0 p-0"><img id="cellState_img" class="img-responsive m-0 p-0" src="" style="object-fit: contain; width: 100%;"></div></div>
+                    <div class="card mx-2" style="width:18rem;height:18rem;"><div class="card-header">cellCycle</div><div class="card-body justify-content-center d-flex m-0 p-0"><img id="cellCycle_img" class="img-responsive m-0 p-0" src="" style="object-fit: contain; width: 100%;"></div></div>
+                    <div class="card mx-2" style="width:18rem;height:18rem;"><div class="card-header">proliferationTime</div><div class="card-body justify-content-center d-flex m-0 p-0"><img id="proliferationTime_img" class="img-responsive m-0 p-0" src="" style="object-fit: contain; width: 100%;"></div></div>
+                    <div class="card mx-2" style="width:18rem;height:18rem;"><div class="card-header">cycleChanged</div><div class="card-body justify-content-center d-flex m-0 p-0"><img id="cycleChanged_img" class="img-responsive m-0 p-0" src="" style="object-fit: contain; width: 100%;"></div></div>
+                </div>
+                <div class="d-flex justify-content-center my-2">
+                    <div class="card mx-2" style="width:18rem;height:18rem;"><div class="card-header">G1time</div><div class="card-body justify-content-center d-flex m-0 p-0"><img id="G1time_img" class="img-responsive m-0 p-0" src="" style="object-fit: contain; width: 100%;"></div></div>
+                    <div class="card mx-2" style="width:18rem;height:18rem;"><div class="card-header">Stime</div><div class="card-body justify-content-center d-flex m-0 p-0"><img id="Stime_img" class="img-responsive m-0 p-0" src="" style="object-fit: contain; width: 100%;"></div></div>
+                    <div class="card mx-2" style="width:18rem;height:18rem;"><div class="card-header">G2time</div><div class="card-body justify-content-center d-flex m-0 p-0"><img id="G2time_img" class="img-responsive m-0 p-0" src="" style="object-fit: contain; width: 100%;"></div></div>
+                    <div class="card mx-2" style="width:18rem;height:18rem;"><div class="card-header">Mtime</div><div class="card-body justify-content-center d-flex m-0 p-0"><img id="Mtime_img" class="img-responsive m-0 p-0" src="" style="object-fit: contain; width: 100%;"></div></div>
+                    <div class="card mx-2" style="width:18rem;height:18rem;"><div class="card-header">Dtime</div><div class="card-body justify-content-center d-flex m-0 p-0"><img id="Dtime_img" class="img-responsive m-0 p-0" src="" style="object-fit: contain; width: 100%;"></div></div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                set_img_urls();
+            </script>
+            <input style="width:100%" id="time_slider" type="range" min="0" max="{{ sd.simulation.time_duration }}" value="0" oninput="update_state()">
+            <p class="text-muted">
+                Created by
+                <a href="{% url 'profile_view' sd.simulation.author.username %}">
+                    {% if sd.simulation.author.user_profile.full_name and sd.simulation.author.user_profile.full_name != "" %}
+                    <strong>{{sd.simulation.author.user_profile.full_name}}</strong>
+                    {% else %}
+                    @{{ sd.simulation.author.username }}
+                    {% endif %}
+                </a>
+            </p>
+        </p>
+        {% get_obj_perms request.user for sd.simulation as "simulation_perms" %}
+        {% if "view_simulation" in simulation_perms or sd.simulation.author.username == request.user.username %}
+        <a href="{% url 'simulation_view' sd.simulation.id %}" class="btn btn-secondary btn-block">View</a>
+        {% else %}
+        <a href="{% url 'simulation_view' sd.simulation.id %}" class="btn btn-secondary btn-block disabled" aria-disabled="true">View</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

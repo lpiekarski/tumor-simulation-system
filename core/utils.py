@@ -4,16 +4,22 @@ import time
 import re
 from django.shortcuts import render
 from django.template import RequestContext
+import uuid
 
 
 def media_file_path(instance, filename):
-    sha_signature = hashlib.sha256((filename + str(time.time())).encode("utf-8")).hexdigest()
+    ident = str(uuid.uuid4())
     _, ext = os.path.splitext(filename)
-    return '{0}/{1}/{2}{3}'.format(sha_signature[:2], sha_signature[2:4], sha_signature[4:], ext)
+    return '{0}{1}{2}{3}'.format(ident[:2], ident[2:4], ident[4:], ext)
+
+
+def media_dir_path(instance=None, filename=None):
+    ident = str(uuid.uuid4())
+    return '{0}{1}{2}'.format(ident[:2], ident[2:4], ident[4:])
 
 
 def is_valid_username(username):
-    if len(username) > 20 or len(username) < 8:
+    if len(username) > 20 or len(username) < 3:
         return False
     if not re.match(r"(^[a-zA-Z0-9]+([_-]?[a-zA-Z0-9])*$)", username):
         return False

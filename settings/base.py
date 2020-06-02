@@ -27,15 +27,17 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
     'django.contrib.humanize',
     'core',
     'homepage',
     'profiles',
+    'simulations',
+    'protocols',
     'apiv1',
 
     'django_extensions',
     'rest_framework',
+    'guardian',
 ]
 
 MIDDLEWARE = [
@@ -82,10 +84,13 @@ DATABASES = {
     }
 }
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'guardian.backends.ObjectPermissionBackend',
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -120,13 +125,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+STATIC_ROOT = STATIC_DIR
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [STATIC_DIR, ]
 
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
-SITE_TITLE = "Tumour Treatment Optimisation - Web App For Doctors"
+SITE_TITLE = "TSS"
+SITE_TITLE_FULL = "Tumor Simulation System"
+
+PROTOCOL_TIME_STEP = 6  # minutes
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -136,5 +144,48 @@ REST_FRAMEWORK = {
     ]
 }
 
+DEFAULT_CAROUSEL_IMAGE = '/static/images/default_carousel_background.jpg'
 
-GOOGLE_RECAPTCHA_SECRET_KEY = 'CHANGEME'
+AVATAR_PROVIDER = 'https://www.tinygraphs.com/labs/isogrids/hexa/'
+
+SSERVER_REFRESH_RATE = 30  # seconds
+SIMULATION_EXECUTABLE = os.path.join(STATIC_DIR, 'bin/run_simulation')
+
+SIMULATION_IMAGE_SETTINGS = {
+    'SIMW_min': 0,
+    'SIMW_max': 1,
+    'SIMCHO_min': 0,
+    'SIMCHO_max': 1e-12,
+    'SIMOX_min': 0,
+    'SIMOX_max': 1e-13,
+    'SIMGI_min': 0,
+    'SIMGI_max': 1e-16,
+    'SIMtimeInRepair_min': 0,
+    'SIMtimeInRepair_max': 1,
+    'SIMirradiation_min': 0,
+    'SIMirradiation_max': 1,
+    'SIMcellState_min': 0,
+    'SIMcellState_max': 5,
+    'SIMcellCycle_min': 0,
+    'SIMcellCycle_max': 5,
+    'SIMproliferationTime_min': 0,
+    'SIMproliferationTime_max': 30,
+    'SIMcycleChanged_min': 0,
+    'SIMcycleChanged_max': 5,
+    'SIMG1time_min': 0,
+    'SIMG1time_max': 10,
+    'SIMStime_min': 0,
+    'SIMStime_max': 20,
+    'SIMG2time_min': 0,
+    'SIMG2time_max': 5,
+    'SIMMtime_min': 0,
+    'SIMMtime_max': 5,
+    'SIMDtime_min': 0,
+    'SIMDtime_max': 0.5
+}
+
+try:
+    from settings.local import *
+except ImportError as e:
+    print("No local configuration file provided")
+    pass

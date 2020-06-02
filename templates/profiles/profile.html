@@ -4,17 +4,17 @@
 {% block head_title %}{{ profile.user.username }}{% endblock %}
 
 {% block body_block %}
-<div class="row">
-    <div class="card col-3">
+<div class="row py-5 mb-3">
+    <div class="card col-sm-3 order-1 order-sm-1">
         <img class="card-img-top img-responsive mt-2" src="{{ profile.avatar.url }}">
         <div class="dropdown-divider mb-0"></div>
         <div class="card-body pt-1 pl-1">
             <div>
                 {% if profile.full_name and profile.full_name != "" %}
                     <strong>{{profile.full_name}}</strong><br/>
-                    <small class="text-muted">{{profile.username}}</small>
+                    <small class="text-muted">{{profile.user.username}}</small>
                 {% else %}
-                    <strong>@{{profile.username}}</strong>
+                    <strong>@{{profile.user.username}}</strong>
                 {% endif %}
             </div>
             <div>
@@ -27,7 +27,8 @@
             </div>
         </div>
     </div>
-    <div class="col">
+    <div class="col-sm-9 order-12 order-sm-12">
+        {% lorem %}
     </div>
 </div>
 {% endblock %}

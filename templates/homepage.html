@@ -5,9 +5,9 @@
     <ol class="carousel-indicators">
         {% for carousel_item in carousel_items %}
             {% if forloop.first %}
-                <li data-target="#carouselIndicators" data-slide-to="{{forloop.couter0}}" class="active"></li>
+                <li data-target="#carouselIndicators" data-slide-to="{{ forloop.couter0 }}" class="active"></li>
             {% else %}
-                <li data-target="#carouselIndicators" data-slide-to="{{forloop.counter0}}"></li>
+                <li data-target="#carouselIndicators" data-slide-to="{{ forloop.counter0 }}"></li>
             {% endif %}
         {% endfor %}
     </ol>
@@ -18,9 +18,9 @@
             {% else %}
                 <div class="carousel-item">
             {% endif %}
-                    <img class="d-block w-100" src="{{carousel_item.image.url}}">
+                    <img class="d-block w-100" src="{{ carousel_item.get_image_url }}">
                     <div class="carousel-caption d-none d-md-block">
-                        {{carousel_item.content|safe}}
+                        {{ carousel_item.content|safe }}
                     </div>
                 </div>
         {% endfor %}
