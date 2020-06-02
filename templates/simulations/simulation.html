@@ -45,6 +45,10 @@
         document.getElementById('Mtime_img').src = states[current_time][13];
         document.getElementById('Dtime_img').src = states[current_time][14];
     }
+    function update_state() {
+        current_time = document.getElementById('time_slider').value;
+        set_img_urls();
+    }
 </script>
 <div class="card">
     <h5 class="card-header text-center">
@@ -78,6 +82,10 @@
                     <div class="card mx-2" style="width:18rem;height:18rem;"><div class="card-header">Dtime</div><div class="card-body justify-content-center d-flex m-0 p-0"><img id="Dtime_img" class="img-responsive m-0 p-0" src="" style="object-fit: contain; width: 100%;"></div></div>
                 </div>
             </div>
+            <script type="text/javascript">
+                set_img_urls();
+            </script>
+            <input style="width:100%" id="time_slider" type="range" min="0" max="{{ sd.simulation.time_duration }}" value="0" oninput="update_state()">
             <p class="text-muted">
                 Created by
                 <a href="{% url 'profile_view' sd.simulation.author.username %}">
