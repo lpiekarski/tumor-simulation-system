@@ -13,7 +13,8 @@ import shutil
 
 
 def save_state_as_image(statestr, minval, maxval):
-    save_filename = os.path.join(settings.MEDIA_ROOT, media_file_path(None, "state.png"))
+    save_media_path = media_file_path(None, "state.png")
+    save_filename = os.path.join(settings.MEDIA_ROOT, save_media_path)
     img = Image.new('RGB', (51, 51), (0, 0, 0))
     statevals = statestr.split(",")
     #print(statevals)
@@ -30,7 +31,7 @@ def save_state_as_image(statestr, minval, maxval):
                 color = 255
             img.putpixel((x, y), (color, color, color))
     img.save(save_filename, 'PNG')
-    return save_filename
+    return save_media_path
 
 
 def run_simulation(**kwargs):
@@ -117,7 +118,7 @@ def run_simulation(**kwargs):
 
 
 class Simulation(models.Model):
-    name = models.CharField(max_length=100, blank=False)  # TODO: add validation for correct protocol
+    name = models.CharField(max_length=100, blank=False)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='simulations', null=False)
     protocol = models.ForeignKey(Protocol, on_delete=models.CASCADE, related_name='simulations', null=False)
     description = models.TextField(null=False)

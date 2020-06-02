@@ -41,12 +41,35 @@ def dashboard(request, template_name="simulations/dashboard.html"):
             "max_dose": max_dose,
             "time_step": settings.PROTOCOL_TIME_STEP,
         }
+        first_state = SimulationState.objects.filter(simulation=simulation).order_by('time').first()
+        images1 = []
+        images2 = []
+        images3 = []
+        if first_state is not None:
+            images1.append(first_state._W_img)
+            images1.append(first_state._CHO_img)
+            images1.append(first_state._OX_img)
+            images1.append(first_state._GI_img)
+            images1.append(first_state._timeInRepair_img)
+            images2.append(first_state._irradiation_img)
+            images2.append(first_state._cellState_img)
+            images2.append(first_state._cellCycle_img)
+            images2.append(first_state._proliferationTime_img)
+            images2.append(first_state._cycleChanged_img)
+            images3.append(first_state._G1time_img)
+            images3.append(first_state._Stime_img)
+            images3.append(first_state._G2time_img)
+            images3.append(first_state._Mtime_img)
+            images3.append(first_state._Dtime_img)
         sd = {
             "simulation": simulation,
+            "images1": images1,
+            "images2": images2,
+            "images3": images3,
             "pd": pd
         }
         simulation_data.append(sd)
-    return render_with_context(request, template_name, {"simulation_data": simulation_data})
+    return render_with_context(request, template_name, {'simulation_data': simulation_data})
 
 
 def simulation_view(request, simulation, template_name="simulations/simulation.html"):

@@ -8,7 +8,7 @@
     <script src="{% static 'js/tss/protocols.js' %}"></script>
     <div class="card-columns">
         {% for sd in simulation_data %}
-            <div class="card" style="width: 18rem;">
+            <div class="card">
                 <h5 class="card-header text-center">
                     {{ sd.simulation.name }}
                 </h5>
@@ -43,6 +43,23 @@
                             {% endfor %}
                             draw_protocol_chart("card-img-top bg-light border px-3 py-3", labels, data);
                         </script>
+                        <div class="overflow-auto">
+                            <div class="d-flex justify-content-center my-2">
+                            {% for img in sd.images1 %}
+                                <img class="mx-2" src="{{ img.url }}">
+                            {% endfor %}
+                            </div>
+                            <div class="d-flex justify-content-center my-2">
+                            {% for img in sd.images2 %}
+                                <img class="mx-2" src="{{ img.url }}">
+                            {% endfor %}
+                            </div>
+                            <div class="d-flex justify-content-center my-2">
+                            {% for img in sd.images3 %}
+                                <img class="mx-2" src="{{ img.url }}">
+                            {% endfor %}
+                            </div>
+                        </div>
                         <p class="text-muted">
                             Created by
                             <a href="{% url 'profile_view' sd.simulation.author.username %}">
