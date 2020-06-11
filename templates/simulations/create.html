@@ -74,9 +74,9 @@
                                             var t, days, hours, minutes, timestring;
                                             {% for dose in pd.doses %}
                                                 t = {{ dose.time }} * {{ pd.time_step }};
-                                                days = Math.floor(t / (24 * 60));
-                                                hours = Math.floor((t % (24 * 60)) / 60);
-                                                minutes = t % 60;
+                    days = Math.floor(t / (60 * 60 * 24));
+                    hours = Math.floor((t / (60 * 60)) % 24);
+                    minutes = Math.floor((t / 60) % 60);
                                                 timestring = ((hours < 10)?("0"):("")) + hours + ":" + ((minutes < 10)?("0"):("")) + minutes + ", day " + days;
                                                 labels.push(timestring);
                                                 data.push({{ dose.dose }});
