@@ -14,9 +14,9 @@ MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 SECRET_KEY = '0#_#md((*!!yi!a$sto2k!w&!jla=wk9y(j#p5v0e=vnwnb$lz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["cml.mimuw.edu.pl"]
 
 
 # Application definition
@@ -131,8 +131,8 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
-SITE_TITLE = "TSS"
-SITE_TITLE_FULL = "Tumor Simulation System"
+SITE_TITLE = "CML"
+SITE_TITLE_FULL = "Cancer Modeling Lab"
 
 PROTOCOL_TIME_STEP = 6  # minutes
 
