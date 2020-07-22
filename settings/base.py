@@ -6,18 +6,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '0#_#md((*!!yi!a$sto2k!w&!jla=wk9y(j#p5v0e=vnwnb$lz'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
-ALLOWED_HOSTS = ["cml.mimuw.edu.pl"]
-
+BIN_DIR = os.path.join(BASE_DIR, 'bin')
 
 # Application definition
 
@@ -149,7 +138,7 @@ DEFAULT_CAROUSEL_IMAGE = '/static/images/default_carousel_background.jpg'
 AVATAR_PROVIDER = 'https://www.tinygraphs.com/labs/isogrids/hexa/'
 
 SSERVER_REFRESH_RATE = 30  # seconds
-SIMULATION_EXECUTABLE = os.path.join(STATIC_DIR, 'bin/run_simulation')
+SIMULATION_EXECUTABLE = os.path.join(BIN_DIR, 'run_simulation')
 
 SIMULATION_IMAGE_SETTINGS = {
     'SIMW_min': 0,
