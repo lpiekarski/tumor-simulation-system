@@ -1,5 +1,7 @@
 import os.path
 from os import environ
+import logging
+from logging.handlers import RotatingFileHandler
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -7,6 +9,9 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 BIN_DIR = os.path.join(BASE_DIR, 'bin')
+LOGS_DIR = os.path.join(BASE_DIR, 'logs')
+
+LOGS_PATH = os.path.join(LOGS_DIR, 'cml')
 
 # Application definition
 
@@ -171,6 +176,32 @@ SIMULATION_IMAGE_SETTINGS = {
     'SIMMtime_max': 5,
     'SIMDtime_min': 0,
     'SIMDtime_max': 0.5
+}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': LOGS_PATH,
+            'formatter': 'standard',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
 }
 
 try:

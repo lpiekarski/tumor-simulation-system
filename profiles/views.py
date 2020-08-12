@@ -7,8 +7,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from logging.handlers import RotatingFileHandler
 import urllib.request
 import os
+import logging
 import hashlib
 
 from profiles.models import Profile

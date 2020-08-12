@@ -8,6 +8,6 @@ GOOGLE_RECAPTCHA_SECRET_KEY = '6Leghd4UAAAAACy2xv4IZkgcklKZohw9YeB1EPIh'
 GOOGLE_RECAPTCHA_PUBLIC_KEY = '6Leghd4UAAAAAE9r0khUIo1SUg9b70VbT6YF5-uT'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["cml.mimuw.edu.pl"]
+ALLOWED_HOSTS = ["cml.mimuw.edu.pl", "localhost"]
